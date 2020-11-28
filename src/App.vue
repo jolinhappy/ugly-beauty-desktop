@@ -13,9 +13,10 @@
 
 :root {
   --blood-red: #960820;
-  --light-red: #ff8a9e;
+  --main-red: #e4677d;
+  --light-red: #ffccd5;
   --dark-red: #4d000d;
-  --middle-red: #6a1120;
+  --middle-red: #981b30;
   --white: #fff;
   --text-black: #252223;
   height: 100%;
