@@ -168,8 +168,12 @@
         </div>
       </div>
       <div class="footer-right">
-        <div class="footer-skin-change">變更桌面</div>
-        <div class="footer-time">12:35 PM</div>
+        <!-- <div class="footer-skin-change">變更桌面</div> -->
+        <div class="footer-time">
+          {{ hour | hourFilter }}:{{ minute | minuteFilter }}:{{
+            second | secondFilter
+          }}
+        </div>
       </div>
     </div>
   </div>
@@ -183,7 +187,23 @@ export default {
       active: false,
       menuDisplay: false,
       eventWindow: false,
+      hour: null,
+      minute: null,
+      second: null,
     };
+  },
+  mounted() {
+    this.timer = setInterval(() => {
+      const NowDate = new Date();
+      this.hour = NowDate.getHours();
+      this.minute = NowDate.getMinutes();
+      this.second = NowDate.getSeconds();
+    }, 1000);
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   },
   methods: {
     clickStart() {
@@ -201,6 +221,32 @@ export default {
     },
     closeEventWindow() {
       this.eventWindow = false;
+    },
+  },
+  filters: {
+    hourFilter(value) {
+      let afternoonHour = "";
+      let morningHour = "";
+      if (value > 12) {
+        afternoonHour = value - 12;
+        if (afternoonHour < 10) {
+          afternoonHour = "下午 " + "0" + afternoonHour;
+        }
+        return afternoonHour;
+      } else if (value === 12) {
+        afternoonHour = value;
+      } else if (value === 24) {
+        morningHour = "上午 " + value - 12;
+      } else {
+        morningHour = "上午 " + "0" + value;
+      }
+      return value > 12 ? afternoonHour : morningHour;
+    },
+    minuteFilter(value) {
+      return value >= 10 ? value : "0" + value;
+    },
+    secondFilter(value) {
+      return value >= 10 ? value : "0" + value;
     },
   },
 };
