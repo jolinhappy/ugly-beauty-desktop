@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="desktop-app-group">
-        <div class="desktop-app">
+        <div class="desktop-app" @dblclick="openMusicWindow">
           <div class="desktop-app-icon">
             <img
               src="https://picsum.photos/40/40/?random=1"
@@ -105,17 +105,16 @@
       </div>
     </div>
     <!-- music audio -->
-    <div class="window-wrap music-player-window">
+    <div class="window-wrap music-player-window" v-show="musicWindow">
       <div class="window-header">
         <div class="window-title">音樂播放器</div>
-        <div class="cross-icon" @click="closeEventWindow">
+        <div class="cross-icon" @click="closeMusicWindow">
           <font-awesome-icon icon="times" />
         </div>
       </div>
-      <!-- <div class="content-tite">Jolin大紀事</div> -->
       <audio
         id="music1"
-        src="http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3"
+        :src="src"
         controls
         hidden
         autoplay
@@ -129,13 +128,19 @@
           type="checkbox"
           id="music-list-toggle"
           class="music-list-toggle"
+          v-model="listToggle"
         />
         <label for="music-list-toggle" class="music-list-toggle-label">
-          <div class="music-name">紅衣女孩</div>
+          <div class="music-name">{{ musicName }}</div>
           <font-awesome-icon icon="caret-down" class="music-option-button" />
         </label>
         <div class="music-list">
-          <div class="music-item" v-for="music in musicList" :key="music.id">
+          <div
+            class="music-item"
+            v-for="music in musicList"
+            :key="music.id"
+            @click="changeMusic(music.id)"
+          >
             {{ music.name }}
           </div>
         </div>
@@ -270,6 +275,7 @@ export default {
       active: false,
       menuDisplay: false,
       eventWindow: false,
+      musicWindow: true,
       play: false,
       pause: false,
       stop: false,
@@ -299,6 +305,10 @@ export default {
             "http://s85.youtaker.com/other/2019/12-1/mp3559071610fe67a557a05a43d09c4c68fb7530d1dc85.mp3",
         },
       ],
+      musicName: "紅衣女孩",
+      src:
+        "http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3",
+      listToggle: false,
     };
   },
   mounted() {
@@ -331,14 +341,20 @@ export default {
     closeEventWindow() {
       this.eventWindow = false;
     },
+    openMusicWindow() {
+      this.musicWindow = true;
+      this.src = this.musicList[0].src;
+    },
+    closeMusicWindow() {
+      this.musicWindow = false;
+      this.src = "";
+    },
     playMusic() {
       const { audio } = this.$refs;
       audio.play();
       this.play = true;
       this.stop = false;
       this.pause = false;
-      console.log(audio);
-      console.log("tt", parseInt(audio.duration));
       this.durationTime = Number(parseInt(audio.duration));
     },
     pauseMusic() {
@@ -358,17 +374,23 @@ export default {
     },
     getDurationTime() {
       const { audio } = this.$refs;
-      console.log();
       this.duration = audio.duration;
       this.getCurrentTime();
     },
     getCurrentTime() {
-      const { audio } = this.$refs;
-      console.log("e", audio);
-      setInterval(() => {
-        console.log("wwww", parseInt(this.$refs.audio.currentTime));
+      const timer = setInterval(() => {
         this.current = parseInt(this.$refs.audio.currentTime);
       }, 1000);
+      console.log(timer);
+    },
+    changeMusic(id) {
+      this.musicList.map((music) => {
+        if (music.id === id) {
+          this.musicName = music.name;
+          this.src = music.src;
+          this.listToggle = false;
+        }
+      });
     },
   },
   filters: {
@@ -408,7 +430,7 @@ export default {
         musicSecond = "0" + musicSecond;
       }
 
-      return musicMinute + ":" + musicSecond;
+      return !value ? "-- : --" : musicMinute + ":" + musicSecond;
     },
   },
 };
