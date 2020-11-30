@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <div class="window-wrap" v-show="eventWindow">
+    <div class="window-wrap event-window" v-show="eventWindow">
       <div class="window-header">
         <div class="window-title">Jolin大紀事</div>
         <div class="cross-icon" @click="closeEventWindow">
@@ -104,7 +104,89 @@
         </div>
       </div>
     </div>
-
+    <!-- music audio -->
+    <div class="window-wrap music-player-window">
+      <div class="window-header">
+        <div class="window-title">音樂播放器</div>
+        <div class="cross-icon" @click="closeEventWindow">
+          <font-awesome-icon icon="times" />
+        </div>
+      </div>
+      <!-- <div class="content-tite">Jolin大紀事</div> -->
+      <audio
+        id="music1"
+        src="http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3"
+        controls
+        hidden
+        autoplay
+        ref="audio"
+        @canplay="getDurationTime"
+      >
+        Your browser does not support
+      </audio>
+      <div class="music-option">
+        <input
+          type="checkbox"
+          id="music-list-toggle"
+          class="music-list-toggle"
+        />
+        <label for="music-list-toggle" class="music-list-toggle-label">
+          <div class="music-name">紅衣女孩</div>
+          <font-awesome-icon icon="caret-down" class="music-option-button" />
+        </label>
+        <div class="music-list">
+          <div class="music-item" v-for="music in musicList" :key="music.id">
+            {{ music.name }}
+          </div>
+        </div>
+      </div>
+      <div class="music-player-progress">
+        <div class="music-player-progress-main-bar">
+          <div class="music-player-progress-bar"></div>
+          <div class="music-player-progress-button-wrap">
+            <div class="progress-botton"></div>
+          </div>
+        </div>
+      </div>
+      <div class="music-player-controler">
+        <div class="music-control-tools">
+          <div
+            class="music-control-button music-play"
+            @click="playMusic"
+            :class="{ active: play === true }"
+          >
+            <font-awesome-icon icon="play" />
+          </div>
+          <div
+            class="music-control-button music-pause"
+            @click="pauseMusic"
+            :class="{ active: pause === true }"
+          >
+            <font-awesome-icon icon="pause" />
+          </div>
+          <div
+            class="music-control-button music-stop"
+            @click="stopMusic"
+            :class="{ active: stop === true }"
+          >
+            <font-awesome-icon icon="stop" />
+          </div>
+        </div>
+        <div class="music-duration">
+          <div class="music-duration-time">
+            {{ current | musicTimeFilter }} /
+            {{ duration | musicTimeFilter }}
+          </div>
+        </div>
+        <div class="music-player-volume">
+          <div class="music-player-volume-icon">
+            <font-awesome-icon icon="volume-up" v-if="volume" />
+            <font-awesome-icon icon="volume-off" v-else />
+          </div>
+          <div class="music-player-volume-control"></div>
+        </div>
+      </div>
+    </div>
     <div class="desktop-footer">
       <div class="footer-left" @click="clickStart" :class="{ active }">
         <div class="footer-start-icon">
@@ -180,6 +262,7 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from "uuid";
 export default {
   name: "Home",
   data() {
@@ -187,9 +270,35 @@ export default {
       active: false,
       menuDisplay: false,
       eventWindow: false,
+      play: false,
+      pause: false,
+      stop: false,
       hour: null,
       minute: null,
       second: null,
+      volume: true,
+      duration: "",
+      current: "",
+      musicList: [
+        {
+          id: uuidv4(),
+          name: "紅衣女孩",
+          src:
+            "http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3",
+        },
+        {
+          id: uuidv4(),
+          name: "怪美的",
+          src:
+            "http://s85.youtaker.com/other/2019/12-5/mp33874236080c025e95ca134a93ac2ff393fc09b28985.mp3",
+        },
+        {
+          id: uuidv4(),
+          name: "玫瑰少年",
+          src:
+            "http://s85.youtaker.com/other/2019/12-1/mp3559071610fe67a557a05a43d09c4c68fb7530d1dc85.mp3",
+        },
+      ],
     };
   },
   mounted() {
@@ -222,6 +331,45 @@ export default {
     closeEventWindow() {
       this.eventWindow = false;
     },
+    playMusic() {
+      const { audio } = this.$refs;
+      audio.play();
+      this.play = true;
+      this.stop = false;
+      this.pause = false;
+      console.log(audio);
+      console.log("tt", parseInt(audio.duration));
+      this.durationTime = Number(parseInt(audio.duration));
+    },
+    pauseMusic() {
+      const { audio } = this.$refs;
+      audio.pause();
+      this.play = false;
+      this.pause = true;
+      this.stop = false;
+    },
+    stopMusic() {
+      const { audio } = this.$refs;
+      audio.pause();
+      audio.currentTime = 0;
+      this.play = false;
+      this.pause = false;
+      this.stop = true;
+    },
+    getDurationTime() {
+      const { audio } = this.$refs;
+      console.log();
+      this.duration = audio.duration;
+      this.getCurrentTime();
+    },
+    getCurrentTime() {
+      const { audio } = this.$refs;
+      console.log("e", audio);
+      setInterval(() => {
+        console.log("wwww", parseInt(this.$refs.audio.currentTime));
+        this.current = parseInt(this.$refs.audio.currentTime);
+      }, 1000);
+    },
   },
   filters: {
     hourFilter(value) {
@@ -234,7 +382,7 @@ export default {
         }
         return afternoonHour;
       } else if (value === 12) {
-        afternoonHour = value;
+        afternoonHour = "下午" + value;
       } else if (value === 24) {
         morningHour = "上午 " + value - 12;
       } else {
@@ -247,6 +395,20 @@ export default {
     },
     secondFilter(value) {
       return value >= 10 ? value : "0" + value;
+    },
+    musicTimeFilter(value) {
+      const musicTime = parseInt(value);
+      let musicMinute = Math.floor(musicTime / 60);
+      let musicSecond = musicTime % 60;
+      if (musicMinute < 10) {
+        musicMinute = "0" + musicMinute;
+      }
+
+      if (musicSecond < 10) {
+        musicSecond = "0" + musicSecond;
+      }
+
+      return musicMinute + ":" + musicSecond;
     },
   },
 };
@@ -316,12 +478,6 @@ export default {
   margin-left: 8px;
   font-size: 20px;
 }
-.active {
-  border-top: 1.5px solid var(--dark-red);
-  border-left: 1.5px solid var(--dark-red);
-  border-right: 1.5px solid var(--light-red);
-  border-bottom: 1.5px solid var(--light-red);
-}
 .footer-menu {
   position: absolute;
   bottom: 45.7px;
@@ -369,18 +525,7 @@ export default {
   margin-right: 10px;
 }
 
-.window-wrap {
-  position: absolute;
-  top: 50px;
-  right: 50%;
-  width: 400px;
-  height: 350px;
-  border-top: 1.5px solid var(--light-red);
-  border-left: 1.5px solid var(--light-red);
-  border-right: 1.5px solid var(--dark-red);
-  border-bottom: 1.5px solid var(--dark-red);
-  background: var(--main-red);
-}
+/* windows share */
 .window-header {
   width: 400.5px;
   height: 33px;
@@ -390,11 +535,6 @@ export default {
   justify-content: space-between;
   background: linear-gradient(0deg, #960820 14%, #de0025 97%);
 }
-.window-title {
-  margin-left: 10px;
-  color: var(--white);
-}
-
 .cross-icon {
   margin-right: 6px;
   width: 20px;
@@ -411,6 +551,25 @@ export default {
   border-right: 1.5px solid var(--light-red);
   border-bottom: 1.5px solid var(--light-red);
 }
+
+/* event window */
+.event-window {
+  position: absolute;
+  top: 50px;
+  right: 50%;
+  width: 400px;
+  height: 350px;
+  border-top: 1.5px solid var(--light-red);
+  border-left: 1.5px solid var(--light-red);
+  border-right: 1.5px solid var(--dark-red);
+  border-bottom: 1.5px solid var(--dark-red);
+  background: var(--main-red);
+}
+
+.window-title {
+  margin-left: 10px;
+  color: var(--white);
+}
 .window-content {
   width: 380px;
   height: 300px;
@@ -419,11 +578,11 @@ export default {
   overflow-y: scroll;
   scrollbar-arrow-color: var(--blood-red);
 }
-.window-content::-webkit-scrollbar {
+.event-window .window-content::-webkit-scrollbar {
   background: var(--light-red);
   width: 20px;
 }
-.window-content::-webkit-scrollbar-thumb {
+.event-window .window-content::-webkit-scrollbar-thumb {
   background: var(--main-red);
   border-top: 1.5px solid var(--light-red);
   border-right: 1px solid var(--dark-red);
@@ -439,6 +598,150 @@ export default {
 }
 .history-event {
   margin-left: 20px;
+}
+
+/* music player */
+.music-player-window {
+  position: absolute;
+  top: 300px;
+  left: 5%;
+  width: 400px;
+  height: 160px;
+  border-top: 1.5px solid var(--light-red);
+  border-left: 1.5px solid var(--light-red);
+  border-right: 1.5px solid var(--dark-red);
+  border-bottom: 1.5px solid var(--dark-red);
+  background: var(--main-red);
+}
+.window-title {
+  margin-left: 10px;
+  color: var(--white);
+}
+.music-option {
+  width: 380px;
+  height: 32px;
+  position: relative;
+  margin: 5px auto;
+  border: 1px solid var(--blood-red);
+  border-radius: 2px;
+}
+.music-name {
+  margin-left: 17.6px;
+}
+.music-list-toggle-label {
+  width: 380px;
+  height: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.music-option-button {
+  margin-right: 20px;
+}
+.music-list-toggle {
+  display: none;
+}
+.music-list-toggle:checked ~ .music-list {
+  display: block;
+}
+.music-list {
+  position: absolute;
+  top: 32.5px;
+  width: 378px;
+  height: auto;
+  background: var(--main-red);
+  border-top: 1px solid var(--light-red);
+  border-left: 1.5px solid var(--light-red);
+  border-right: 1.5px solid var(--dark-red);
+  border-bottom: 1.5px solid var(--dark-red);
+  display: none;
+}
+.music-item {
+  padding: 10px 0px 10px 15px;
+  width: 362px;
+  height: 20px;
+}
+.music-item:hover {
+  background: pink;
+  color: var(--blood-red);
+  cursor: default;
+}
+
+.music-player-progress {
+  width: 380px;
+  height: 30px;
+  background: var(--text-black);
+  margin: 5px auto;
+  display: flex;
+}
+.music-player-progress-main-bar {
+  width: 370px;
+  height: 5.5px;
+  background: #6e6e6e;
+  border-radius: 3px;
+  margin: auto;
+}
+.music-player-progress-button-wrap {
+  width: 30px;
+  height: 30px;
+  margin-top: -12px;
+}
+.progress-botton {
+  width: 13.5px;
+  height: 13.5px;
+  border-radius: 50%;
+  background: var(--blood-red);
+  margin-top: 8px;
+}
+
+.music-player-controler {
+  width: 380px;
+  height: 43px;
+  margin: 5px auto;
+  display: flex;
+  align-items: center;
+}
+.music-control-tools {
+  display: flex;
+  width: 145px;
+  height: 43px;
+  align-items: center;
+  border: 1px solid var(--blood-red);
+  border-radius: 2px;
+  margin-right: 8px;
+}
+.music-control-button {
+  width: 40px;
+  height: 36px;
+  margin: auto;
+  line-height: 36px;
+  text-align: center;
+  border-top: 1px solid var(--light-red);
+  border-left: 1.5px solid var(--light-red);
+  border-right: 1.5px solid var(--dark-red);
+  border-bottom: 1.5px solid var(--dark-red);
+}
+.music-duration {
+  width: 102px;
+  height: 43px;
+}
+.music-duration-time {
+  text-align: center;
+  line-height: 43px;
+  font-size: 17px;
+}
+.music-player-volume {
+  background: chartreuse;
+  width: 90px;
+  height: 43px;
+  margin-left: 35px;
+}
+
+.active {
+  border-top: 1.5px solid var(--dark-red);
+  border-left: 1.5px solid var(--dark-red);
+  border-right: 1.5px solid var(--light-red);
+  border-bottom: 1.5px solid var(--light-red);
 }
 </style>
 
