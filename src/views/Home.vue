@@ -10,7 +10,7 @@
               class="icon-img"
             />
           </div>
-          <div class="desktop-app-title">我的電腦</div>
+          <div class="desktop-app-title">My Computer</div>
         </div>
         <div class="desktop-app">
           <div class="desktop-app-icon">
@@ -32,7 +32,7 @@
               class="icon-img"
             />
           </div>
-          <div class="desktop-app-title">音樂播放器</div>
+          <div class="desktop-app-title">Music Player</div>
         </div>
         <div class="desktop-app" @dblclick="openEventWindow">
           <div class="desktop-app-icon">
@@ -66,7 +66,7 @@
       <div class="window-header">
         <div class="window-title">Jolin大紀事</div>
         <div class="cross-icon" @click="closeEventWindow">
-          <font-awesome-icon icon="times" />
+          <font-awesome-icon icon="times" class="close-icon" />
         </div>
       </div>
       <div class="window-content">
@@ -107,9 +107,9 @@
     <!-- music audio -->
     <div class="window-wrap music-player-window" v-show="musicWindow">
       <div class="window-header">
-        <div class="window-title">音樂播放器</div>
+        <div class="window-title">Music Player</div>
         <div class="cross-icon" @click="closeMusicWindow">
-          <font-awesome-icon icon="times" />
+          <font-awesome-icon icon="times" class="close-icon" />
         </div>
       </div>
       <audio
@@ -184,11 +184,17 @@
           </div>
         </div>
         <div class="music-player-volume">
-          <div class="music-player-volume-icon">
+          <div class="music-player-volume-icon" @click="muteMusic">
             <font-awesome-icon icon="volume-up" v-if="volume" />
             <font-awesome-icon icon="volume-off" v-else />
           </div>
-          <div class="music-player-volume-control"></div>
+          <div class="music-player-volume-control">
+            <div class="volume-control-bar">
+              <div class="volume-control-button-wrap">
+                <div class="volum-control button"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -200,7 +206,7 @@
             class="footer-icon-img"
           />
         </div>
-        <div class="footer-start-text">start</div>
+        <div class="footer-start-text">開始</div>
       </div>
       <div class="footer-menu" v-show="menuDisplay">
         <div class="menu-item">
@@ -211,7 +217,7 @@
               class="menu-icon-img"
             />
           </div>
-          <div class="menu-item-title">音樂播放器</div>
+          <div class="menu-item-title">Music Player</div>
         </div>
         <div class="menu-item">
           <div class="menu-item-icon">
@@ -251,7 +257,7 @@
               class="menu-icon-img"
             />
           </div>
-          <div class="menu-item-title">我的電腦</div>
+          <div class="menu-item-title">My Computer</div>
         </div>
       </div>
       <div class="footer-right">
@@ -359,6 +365,7 @@ export default {
     },
     pauseMusic() {
       const { audio } = this.$refs;
+      console.log(this.$refs);
       audio.pause();
       this.play = false;
       this.pause = true;
@@ -371,6 +378,11 @@ export default {
       this.play = false;
       this.pause = false;
       this.stop = true;
+    },
+    muteMusic() {
+      const { audio } = this.$refs;
+      this.volume = !this.volume;
+      audio.volume = this.volume;
     },
     getDurationTime() {
       const { audio } = this.$refs;
@@ -398,17 +410,19 @@ export default {
       let afternoonHour = "";
       let morningHour = "";
       if (value > 12) {
-        afternoonHour = value - 12;
+        afternoonHour = "下午 " + (value - 12);
         if (afternoonHour < 10) {
           afternoonHour = "下午 " + "0" + afternoonHour;
         }
         return afternoonHour;
       } else if (value === 12) {
-        afternoonHour = "下午" + value;
+        afternoonHour = "下午 " + value;
       } else if (value === 24) {
         morningHour = "上午 " + value - 12;
-      } else {
+      } else if (value < 10) {
         morningHour = "上午 " + "0" + value;
+      } else {
+        morningHour = "上午 " + value;
       }
       return value > 12 ? afternoonHour : morningHour;
     },
@@ -430,7 +444,7 @@ export default {
         musicSecond = "0" + musicSecond;
       }
 
-      return !value ? "-- : --" : musicMinute + ":" + musicSecond;
+      return !value ? "00:00" : musicMinute + ":" + musicSecond;
     },
   },
 };
@@ -566,12 +580,16 @@ export default {
   border-left: 1.5px solid var(--light-red);
   border-right: 1.5px solid var(--dark-red);
   border-bottom: 1.5px solid var(--dark-red);
+  display: flex;
 }
 .cross-icon:hover {
   border-top: 1.5px solid var(--dark-red);
   border-left: 1.5px solid var(--dark-red);
   border-right: 1.5px solid var(--light-red);
   border-bottom: 1.5px solid var(--light-red);
+}
+.close-icon {
+  margin: auto;
 }
 
 /* event window */
@@ -712,7 +730,7 @@ export default {
   width: 13.5px;
   height: 13.5px;
   border-radius: 50%;
-  background: var(--blood-red);
+  background: linear-gradient(0deg, #960820 14%, #de0025 97%);
   margin-top: 8px;
 }
 
@@ -744,7 +762,7 @@ export default {
   border-bottom: 1.5px solid var(--dark-red);
 }
 .music-duration {
-  width: 102px;
+  width: 115px;
   height: 43px;
 }
 .music-duration-time {
@@ -756,7 +774,14 @@ export default {
   background: chartreuse;
   width: 90px;
   height: 43px;
-  margin-left: 35px;
+  margin-left: 20px;
+}
+.volume-control-bar {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 40px 75px;
+  border-color: transparent transparent red transparent;
 }
 
 .active {
