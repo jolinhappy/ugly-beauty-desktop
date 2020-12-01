@@ -1,8 +1,24 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view @handleWallpaperChange="handleChange" />
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    handleChange(url) {
+      const body = document.querySelector("body");
+      body.setAttribute("style", `background-image:url(${url})`);
+      console.log(body);
+      console.log(url);
+    },
+  },
+};
+</script>
 
 <style>
 /* reset */
@@ -25,6 +41,11 @@
   --text-black: #252223;
   height: 100%;
   width: 100%;
+  /* background-image: url(https://i2.wp.com/www.jolinjenerationgallery.com/albums/userpics/10001/Cai20Yi20Lin20_Jolin_Tsai_3C3CZi20Shuo20_Ugly_Beauty3E3E20_05.jpg);
+  background-size: cover;
+  font-family: "FZXS14--GB1-0"; */
+}
+body {
   background-image: url(https://i2.wp.com/www.jolinjenerationgallery.com/albums/userpics/10001/Cai20Yi20Lin20_Jolin_Tsai_3C3CZi20Shuo20_Ugly_Beauty3E3E20_05.jpg);
   background-size: cover;
   font-family: "FZXS14--GB1-0";

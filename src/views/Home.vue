@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-
+    <!-- event window -->
     <div class="window-wrap event-window" v-show="eventWindow">
       <div class="window-header">
         <div class="window-title">Jolin大紀事</div>
@@ -114,7 +114,7 @@
       </div>
       <audio
         id="music1"
-        :src="src"
+        :src="defaultMusic.musicSrc"
         controls
         hidden
         autoplay
@@ -131,7 +131,7 @@
           v-model="listToggle"
         />
         <label for="music-list-toggle" class="music-list-toggle-label">
-          <div class="music-name">{{ musicName }}</div>
+          <div class="music-name">{{ defaultMusic.musicName }}</div>
           <font-awesome-icon icon="caret-down" class="music-option-button" />
         </label>
         <div class="music-list">
@@ -204,6 +204,43 @@
         </div>
       </div>
     </div>
+    <!-- wallpaper -->
+    <div
+      class="window-wrap wallpaper-change-window"
+      v-show="wallpaperChangeWindow"
+    >
+      <div class="window-header">
+        <div class="window-title">Wallpaper Change</div>
+        <div class="cross-icon" @click="closeWallpaperWindow">
+          <font-awesome-icon icon="times" class="close-icon" />
+        </div>
+      </div>
+      <div class="wallpaper-preview-wrap">
+        <div class="wallpaper-preview">
+          <div class="wallpaper-preview-screen">
+            <img
+              :src="wallpapersUrl"
+              alt="wallpaper-preview"
+              class="preview-image"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="wallpaper-list-wrap">
+        <div
+          class="wallpaper-item"
+          v-for="wallpaper in wallpapers"
+          :key="wallpaper.id"
+          @click="changeWallpaper(wallpaper.id)"
+        >
+          <div class="wallpaper-image-wrap">
+            <img :src="wallpaper.url" alt="wallpaper" class="wallpaper-image" />
+          </div>
+          <div class="wallpaper-title">{{ wallpaper.title }}</div>
+        </div>
+      </div>
+    </div>
+
     <div class="desktop-footer">
       <div class="footer-left" @click="clickStart" :class="{ active }">
         <div class="footer-start-icon">
@@ -245,6 +282,16 @@
           </div>
           <div class="menu-item-title">蔡依林</div>
         </div>
+        <div class="menu-item" @click="openWallpaperWindow">
+          <div class="menu-item-icon">
+            <img
+              src="https://picsum.photos/20/20/?random=29"
+              alt="menu-icon"
+              class="menu-icon-img"
+            />
+          </div>
+          <div class="menu-item-title">Wallpaper Change</div>
+        </div>
         <div class="menu-item">
           <div class="menu-item-icon">
             <img
@@ -267,7 +314,6 @@
         </div>
       </div>
       <div class="footer-right">
-        <!-- <div class="footer-skin-change">變更桌面</div> -->
         <div class="footer-time">
           {{ hour | hourFilter }}:{{ minute | minuteFilter }}:{{
             second | secondFilter
@@ -288,6 +334,7 @@ export default {
       menuDisplay: false,
       eventWindow: false,
       musicWindow: true,
+      wallpaperChangeWindow: false,
       play: false,
       pause: false,
       stop: false,
@@ -317,11 +364,40 @@ export default {
             "http://s85.youtaker.com/other/2019/12-1/mp3559071610fe67a557a05a43d09c4c68fb7530d1dc85.mp3",
         },
       ],
-      musicName: "紅衣女孩",
-      src:
-        "http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3",
+      defaultMusic: {
+        musicSrc:
+          "http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3",
+        musicName: "紅衣女孩",
+      },
       listToggle: false,
       progressData: {},
+      wallpapers: [
+        {
+          id: uuidv4(),
+          url:
+            "https://i2.wp.com/www.jolinjenerationgallery.com/albums/userpics/10001/Cai20Yi20Lin20_Jolin_Tsai_3C3CZi20Shuo20_Ugly_Beauty3E3E20_05.jpg",
+          title: "ugly beaty",
+        },
+        {
+          id: uuidv4(),
+          url: "https://i.ytimg.com/vi/-wIHmPAvMBo/maxresdefault.jpg",
+          title: "怪美的",
+        },
+
+        {
+          id: uuidv4(),
+          url:
+            "https://i.pinimg.com/originals/bb/3f/43/bb3f4300b07c1d7fe05e22acb3e7ebc5.jpg",
+          title: "紅衣女孩",
+        },
+        {
+          id: uuidv4(),
+          url: "https://i.ytimg.com/vi/w_JBF4CJ-9M/maxresdefault.jpg",
+          title: "消極掰",
+        },
+      ],
+      wallpapersUrl:
+        "https://i2.wp.com/www.jolinjenerationgallery.com/albums/userpics/10001/Cai20Yi20Lin20_Jolin_Tsai_3C3CZi20Shuo20_Ugly_Beauty3E3E20_05.jpg",
     };
   },
   mounted() {
@@ -414,8 +490,8 @@ export default {
     changeMusic(id) {
       this.musicList.map((music) => {
         if (music.id === id) {
-          this.musicName = music.name;
-          this.src = music.src;
+          this.defaultMusic.musicName = music.name;
+          this.defaultMusic.musicSrc = music.src;
           this.listToggle = false;
         }
       });
@@ -450,6 +526,22 @@ export default {
       //用當前拖曳移動到的寬度/總寬
       const newPercent = this.$refs.progress.clientWidth / barWidth;
       this.$refs.audio.currentTime = this.duration * newPercent;
+    },
+    changeWallpaper(id) {
+      this.wallpapers.map((item) => {
+        if (item.id === id) {
+          this.wallpapersUrl = item.url;
+          this.$emit("handleWallpaperChange", this.wallpapersUrl);
+        }
+      });
+    },
+    closeWallpaperWindow() {
+      this.wallpaperChangeWindow = false;
+    },
+    openWallpaperWindow() {
+      this.wallpaperChangeWindow = true;
+      this.menuDisplay = !this.menuDisplay;
+      this.active = !this.active;
     },
   },
   computed: {
@@ -507,6 +599,7 @@ export default {
 .desktop {
   width: 100%;
   height: 100%;
+  margin: 0;
 }
 .desktop-app-section {
   display: flex;
@@ -571,7 +664,7 @@ export default {
   position: absolute;
   bottom: 45.7px;
   width: 280px;
-  height: 300px;
+  height: 360px;
   background: var(--main-red);
   border-top: 2px solid var(--light-red);
   border-right: 2px solid var(--middle-red);
@@ -615,6 +708,13 @@ export default {
 }
 
 /* windows share */
+.window-wrap {
+  border-top: 1.5px solid var(--light-red);
+  border-left: 1.5px solid var(--light-red);
+  border-right: 1.5px solid var(--dark-red);
+  border-bottom: 1.5px solid var(--dark-red);
+  background: var(--main-red);
+}
 .window-header {
   width: 400.5px;
   height: 33px;
@@ -652,11 +752,6 @@ export default {
   right: 50%;
   width: 400px;
   height: 350px;
-  border-top: 1.5px solid var(--light-red);
-  border-left: 1.5px solid var(--light-red);
-  border-right: 1.5px solid var(--dark-red);
-  border-bottom: 1.5px solid var(--dark-red);
-  background: var(--main-red);
 }
 
 .window-title {
@@ -700,11 +795,6 @@ export default {
   left: 5%;
   width: 400px;
   height: 150px;
-  border-top: 1.5px solid var(--light-red);
-  border-left: 1.5px solid var(--light-red);
-  border-right: 1.5px solid var(--dark-red);
-  border-bottom: 1.5px solid var(--dark-red);
-  background: var(--main-red);
 }
 .window-title {
   margin-left: 10px;
@@ -877,6 +967,70 @@ export default {
     transparent 50.5%
   );
 } */
+
+/* wallpaper */
+.wallpaper-change-window {
+  position: absolute;
+  top: 50px;
+  right: 10%;
+  width: 400px;
+  height: 380px;
+}
+.wallpaper-preview-wrap {
+  width: 100%;
+  height: 150px;
+}
+.wallpaper-preview {
+  width: 150px;
+  height: 120px;
+  border-top: 2.5px solid var(--light-red);
+  border-left: 2.5px solid var(--light-red);
+  border-right: 2.5px solid var(--dark-red);
+  border-bottom: 2.5px solid var(--dark-red);
+  border-radius: 5px;
+  margin: 20px auto;
+}
+.wallpaper-preview-screen {
+  width: 120px;
+  height: 90px;
+  border-top: 1px solid var(--dark-red);
+  border-left: 1px solid var(--dark-red);
+  border-right: 1px solid var(--light-red);
+  border-bottom: 1px solid var(--light-red);
+  border-radius: 5px;
+  margin: 10px auto 10px;
+  background: black;
+}
+.preview-image {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+}
+.wallpaper-list-wrap {
+  width: 370px;
+  height: 150px;
+  border-top: 1.5px solid var(--dark-red);
+  border-left: 1.5px solid var(--dark-red);
+  border-right: 1.5px solid var(--light-red);
+  border-bottom: 1.5px solid var(--light-red);
+  margin: 0px auto 10px;
+  background: white;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+.wallpaper-item {
+  text-align: center;
+  cursor: pointer;
+}
+.wallpaper-image-wrap {
+  margin: 35px 20px 5px 25px;
+}
+.wallpaper-image {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+}
 
 .active {
   border-top: 1.5px solid var(--dark-red);
