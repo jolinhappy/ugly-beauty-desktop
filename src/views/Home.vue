@@ -20,7 +20,7 @@
               class="icon-img"
             />
           </div>
-          <div class="desktop-app-title">網路上的芳鄰</div>
+          <div class="desktop-app-title">Network Neighborhood</div>
         </div>
       </div>
       <div class="desktop-app-group">
@@ -146,9 +146,15 @@
         </div>
       </div>
       <div class="music-player-progress">
-        <div class="music-player-progress-main-bar">
-          <div class="music-player-progress-bar"></div>
-          <div class="music-player-progress-button-wrap">
+        <div class="music-player-progress-main-bar" ref="bar">
+          <div class="music-player-progress-bar" ref="progress"></div>
+          <div
+            class="music-player-progress-button-wrap"
+            ref="progressBtn"
+            @mousedown="progressTouch"
+            @mousemove="progressTouchMove"
+            @mouseup="progressTouchEnd"
+          >
             <div class="progress-botton"></div>
           </div>
         </div>
@@ -188,13 +194,13 @@
             <font-awesome-icon icon="volume-up" v-if="volume" />
             <font-awesome-icon icon="volume-off" v-else />
           </div>
-          <div class="music-player-volume-control">
+          <!-- <div class="music-player-volume-control">
             <div class="volume-control-bar">
               <div class="volume-control-button-wrap">
                 <div class="volum-control button"></div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -247,7 +253,7 @@
               class="menu-icon-img"
             />
           </div>
-          <div class="menu-item-title">網路上的芳鄰</div>
+          <div class="menu-item-title">Network Neighborhood</div>
         </div>
         <div class="menu-item">
           <div class="menu-item-icon">
@@ -315,6 +321,7 @@ export default {
       src:
         "http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3",
       listToggle: false,
+      progressData: {},
     };
   },
   mounted() {
@@ -329,6 +336,16 @@ export default {
     if (this.timer) {
       clearInterval(this.timer);
     }
+  },
+  watch: {
+    percent(newValue) {
+      if (newValue >= 0 && !this.progressData.start) {
+        const barWidth = this.$refs.bar.clientWidth - 9;
+        const offsetWidth = barWidth * newValue;
+        this.$refs.progress.style.width = `${offsetWidth}px`;
+        this.$refs.progressBtn.style.transform = `translateX(${offsetWidth}px)`;
+      }
+    },
   },
   methods: {
     clickStart() {
@@ -365,7 +382,6 @@ export default {
     },
     pauseMusic() {
       const { audio } = this.$refs;
-      console.log(this.$refs);
       audio.pause();
       this.play = false;
       this.pause = true;
@@ -404,19 +420,56 @@ export default {
         }
       });
     },
+    progressTouch(e) {
+      this.progressData.start = true;
+      //開始位置
+      this.progressData.startX = e.clientX;
+      //目前已經經過的進度條
+      this.progressData.movedProgress = this.$refs.progress.clientWidth;
+    },
+    progressTouchMove(e) {
+      if (!this.progressData.start) {
+        return;
+      }
+      //增加的移動距離(現在拖動到的位置-開始位置)
+      const offsetValue = e.clientX - this.progressData.startX;
+      //總偏移量
+      const offsetWidth = Math.min(
+        this.$refs.bar.clientWidth - 9,
+        Math.max(0, this.progressData.movedProgress + offsetValue)
+      );
+      this.$refs.progress.style.width = `${offsetWidth}px`;
+      this.$refs.progressBtn.style.transform = `translateX(${offsetWidth}px)`;
+    },
+    progressTouchEnd() {
+      this.changePercent();
+      this.progressData.start = false;
+    },
+    changePercent() {
+      const barWidth = this.$refs.bar.clientWidth - 9;
+      //用當前拖曳移動到的寬度/總寬
+      const newPercent = this.$refs.progress.clientWidth / barWidth;
+      this.$refs.audio.currentTime = this.duration * newPercent;
+    },
+  },
+  computed: {
+    percent() {
+      return this.current / this.duration;
+    },
   },
   filters: {
     hourFilter(value) {
       let afternoonHour = "";
       let morningHour = "";
       if (value > 12) {
-        afternoonHour = "下午 " + (value - 12);
+        afternoonHour = value - 12;
         if (afternoonHour < 10) {
           afternoonHour = "下午 " + "0" + afternoonHour;
+        } else if (afternoonHour === 12) {
+          afternoonHour = "下午 " + value;
+        } else {
+          return "下午 " + afternoonHour;
         }
-        return afternoonHour;
-      } else if (value === 12) {
-        afternoonHour = "下午 " + value;
       } else if (value === 24) {
         morningHour = "上午 " + value - 12;
       } else if (value < 10) {
@@ -646,7 +699,7 @@ export default {
   top: 300px;
   left: 5%;
   width: 400px;
-  height: 160px;
+  height: 150px;
   border-top: 1.5px solid var(--light-red);
   border-left: 1.5px solid var(--light-red);
   border-right: 1.5px solid var(--dark-red);
@@ -695,6 +748,7 @@ export default {
   border-right: 1.5px solid var(--dark-red);
   border-bottom: 1.5px solid var(--dark-red);
   display: none;
+  z-index: 3;
 }
 .music-item {
   padding: 10px 0px 10px 15px;
@@ -709,29 +763,43 @@ export default {
 
 .music-player-progress {
   width: 380px;
-  height: 30px;
-  background: var(--text-black);
-  margin: 5px auto;
+  height: 20px;
+  /* background: var(--text-black); */
+  margin: auto;
   display: flex;
 }
 .music-player-progress-main-bar {
   width: 370px;
-  height: 5.5px;
-  background: #6e6e6e;
-  border-radius: 3px;
+  height: 6.5px;
   margin: auto;
+  border-top: 1.5px solid var(--dark-red);
+  border-left: 1.5px solid var(--dark-red);
+  border-right: 1.5px solid var(--light-red);
+  border-bottom: 1.5px solid var(--light-red);
+  position: relative;
+}
+.music-player-progress-bar {
+  height: 100%;
+  background: var(--blood-red);
+  position: absolute;
+  left: 0;
 }
 .music-player-progress-button-wrap {
   width: 30px;
   height: 30px;
   margin-top: -12px;
+  position: relative;
 }
 .progress-botton {
-  width: 13.5px;
-  height: 13.5px;
-  border-radius: 50%;
-  background: linear-gradient(0deg, #960820 14%, #de0025 97%);
-  margin-top: 8px;
+  width: 9px;
+  height: 15px;
+  background: var(--main-red);
+  border-top: 1.5px solid var(--light-red);
+  border-left: 1.5px solid var(--light-red);
+  border-right: 1.5px solid var(--dark-red);
+  border-bottom: 1.5px solid var(--dark-red);
+  margin-top: 6px;
+  position: absolute;
 }
 
 .music-player-controler {
@@ -746,8 +814,8 @@ export default {
   width: 145px;
   height: 43px;
   align-items: center;
-  border: 1px solid var(--blood-red);
-  border-radius: 2px;
+  /* border: 1px solid var(--blood-red); */
+  /* border-radius: 2px; */
   margin-right: 8px;
 }
 .music-control-button {
@@ -756,10 +824,7 @@ export default {
   margin: auto;
   line-height: 36px;
   text-align: center;
-  border-top: 1px solid var(--light-red);
-  border-left: 1.5px solid var(--light-red);
-  border-right: 1.5px solid var(--dark-red);
-  border-bottom: 1.5px solid var(--dark-red);
+  color: var(--light-red);
 }
 .music-duration {
   width: 115px;
@@ -771,24 +836,54 @@ export default {
   font-size: 17px;
 }
 .music-player-volume {
-  background: chartreuse;
-  width: 90px;
+  width: 60px;
   height: 43px;
-  margin-left: 20px;
+  margin-left: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
-.volume-control-bar {
+.music-player-volume-icon {
+  margin-right: 10px;
+}
+/* .volume-control-bar {
   width: 0;
   height: 0;
+  margin-bottom: 15px;
   border-style: solid;
-  border-width: 0 0 40px 75px;
+  border-width: 0 0 22px 60px;
   border-color: transparent transparent red transparent;
 }
+.volume-control-bar::before {
+  content: "";
+  display: flex;
+  margin-left: -59.5px;
+  height: 22px;
+  width: 58px;
+  border-bottom: 1.5px solid var(--light-red);
+  border-right: 1.5px solid var(--light-red);
+}
+.volume-control-bar::after {
+  display: absolute;
+  top: -20px;
+  right: 60%;
+  content: "66iii";
+  height: 50px;
+  background: linear-gradient(
+    -25deg,
+    transparent 44.5%,
+    var(--light-red) 49.5%,
+    var(--light-red) 50.5%,
+    transparent 50.5%
+  );
+} */
 
 .active {
   border-top: 1.5px solid var(--dark-red);
   border-left: 1.5px solid var(--dark-red);
   border-right: 1.5px solid var(--light-red);
   border-bottom: 1.5px solid var(--light-red);
+  color: var(--blood-red);
 }
 </style>
 
