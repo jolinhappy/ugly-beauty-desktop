@@ -114,12 +114,13 @@
       </div>
       <audio
         id="music1"
-        :src="defaultMusic.musicSrc"
+        :src="currentMusicSrc"
         controls
         hidden
         autoplay
         ref="audio"
         @canplay="getDurationTime"
+        @ended="autoPlay"
       >
         Your browser does not support
       </audio>
@@ -131,7 +132,7 @@
           v-model="listToggle"
         />
         <label for="music-list-toggle" class="music-list-toggle-label">
-          <div class="music-name">{{ defaultMusic.musicName }}</div>
+          <div class="music-name">{{ currentMusicName }}</div>
           <font-awesome-icon icon="caret-down" class="music-option-button" />
         </label>
         <div class="music-list">
@@ -367,11 +368,10 @@ export default {
             "http://s85.youtaker.com/other/2019/12-1/mp3559071610fe67a557a05a43d09c4c68fb7530d1dc85.mp3",
         },
       ],
-      defaultMusic: {
-        musicSrc:
-          "http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3",
-        musicName: "紅衣女孩",
-      },
+      defaultMusic: [],
+      currentMusicName: "紅衣女孩",
+      currentMusicSrc:
+        "http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3",
       listToggle: false,
       progressData: {},
       wallpapers: [
@@ -410,6 +410,7 @@ export default {
       this.minute = NowDate.getMinutes();
       this.second = NowDate.getSeconds();
     }, 1000);
+    this.getCurrentMusic();
   },
   beforeDestroy() {
     if (this.timer) {
@@ -446,6 +447,8 @@ export default {
     openMusicWindow() {
       this.musicWindow = true;
       this.src = this.musicList[0].src;
+      const { audio } = this.$refs;
+      audio.play();
     },
     closeMusicWindow() {
       this.musicWindow = false;
@@ -495,11 +498,30 @@ export default {
     changeMusic(id) {
       this.musicList.map((music) => {
         if (music.id === id) {
-          this.defaultMusic.musicName = music.name;
-          this.defaultMusic.musicSrc = music.src;
+          this.currentMusicName = music.name;
+          this.currentMusicSrc = music.src;
           this.listToggle = false;
         }
       });
+    },
+    getCurrentMusic() {
+      this.defaultMusic = this.musicList;
+    },
+    autoPlay() {
+      const musicItem = this.defaultMusic.shift();
+      const { audio } = this.$refs;
+      if (this.currentMusicSrc === musicItem.src) {
+        this.defaultMusic.push(musicItem);
+        const newPlayMusic = this.defaultMusic.shift();
+        this.currentMusicSrc = newPlayMusic.src;
+        this.currentMusicName = newPlayMusic.name;
+        this.defaultMusic.push(newPlayMusic);
+      } else {
+        this.currentMusicSrc = musicItem.src;
+        this.currentMusicName = musicItem.name;
+        this.defaultMusic.push(musicItem);
+      }
+      audio.play();
     },
     progressTouch(e) {
       this.progressData.start = true;
