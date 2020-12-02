@@ -239,6 +239,9 @@
           <div class="wallpaper-title">{{ wallpaper.title }}</div>
         </div>
       </div>
+      <div class="confirm-button-wrap">
+        <div class="confirm-button" @click="comfirmWallpaper">套用</div>
+      </div>
     </div>
 
     <div class="desktop-footer">
@@ -446,7 +449,9 @@ export default {
     },
     closeMusicWindow() {
       this.musicWindow = false;
-      this.src = "";
+      const { audio } = this.$refs;
+      audio.pause();
+      audio.currentTime = 0;
     },
     playMusic() {
       const { audio } = this.$refs;
@@ -531,9 +536,11 @@ export default {
       this.wallpapers.map((item) => {
         if (item.id === id) {
           this.wallpapersUrl = item.url;
-          this.$emit("handleWallpaperChange", this.wallpapersUrl);
         }
       });
+    },
+    comfirmWallpaper() {
+      this.$emit("handleWallpaperChange", this.wallpapersUrl);
     },
     closeWallpaperWindow() {
       this.wallpaperChangeWindow = false;
@@ -974,7 +981,7 @@ export default {
   top: 50px;
   right: 10%;
   width: 400px;
-  height: 380px;
+  height: 415px;
 }
 .wallpaper-preview-wrap {
   width: 100%;
@@ -1030,6 +1037,31 @@ export default {
   width: 70px;
   height: 70px;
   object-fit: cover;
+}
+.confirm-button-wrap {
+  width: 370px;
+  height: 30px;
+  margin: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+.confirm-button {
+  width: 80px;
+  height: 25px;
+  border-top: 1.5px solid var(--light-red);
+  border-left: 1.5px solid var(--light-red);
+  border-right: 1.5px solid var(--dark-red);
+  border-bottom: 1.5px solid var(--dark-red);
+  text-align: center;
+  line-height: 25px;
+  margin-top: 5px;
+  cursor: default;
+}
+.confirm-button:hover {
+  border-top: 1.5px solid var(--dark-red);
+  border-left: 1.5px solid var(--dark-red);
+  border-right: 1.5px solid var(--light-red);
+  border-bottom: 1.5px solid var(--light-red);
 }
 
 .active {
