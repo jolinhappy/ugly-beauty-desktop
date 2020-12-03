@@ -50,4 +50,41 @@ body {
   background-size: cover;
   font-family: "FZXS14--GB1-0";
 }
+
+.window-wrap {
+  border-top: 1.5px solid var(--light-red);
+  border-left: 1.5px solid var(--light-red);
+  border-right: 1.5px solid var(--dark-red);
+  border-bottom: 1.5px solid var(--dark-red);
+  background: var(--main-red);
+}
+.window-header {
+  width: 400.5px;
+  height: 33px;
+  background: var(--blood-red);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(0deg, #960820 14%, #de0025 97%);
+}
+.cross-icon {
+  margin-right: 6px;
+  width: 20px;
+  height: 20px;
+  background: var(--main-red);
+  border-top: 1.5px solid var(--light-red);
+  border-left: 1.5px solid var(--light-red);
+  border-right: 1.5px solid var(--dark-red);
+  border-bottom: 1.5px solid var(--dark-red);
+  display: flex;
+}
+.cross-icon:hover {
+  border-top: 1.5px solid var(--dark-red);
+  border-left: 1.5px solid var(--dark-red);
+  border-right: 1.5px solid var(--light-red);
+  border-bottom: 1.5px solid var(--light-red);
+}
+.close-icon {
+  margin: auto;
+}
 </style>
