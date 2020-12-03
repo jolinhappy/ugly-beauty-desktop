@@ -49,7 +49,7 @@
             Jolin大紀事
           </div>
         </div>
-        <div class="desktop-app">
+        <div class="desktop-app" @dblclick="openJolinProfileWindow">
           <div class="desktop-app-icon">
             <img
               src="https://picsum.photos/40/40/?random=17"
@@ -63,6 +63,10 @@
     </div>
     <!-- event window -->
     <EventWindow v-show="eventWindow" @close="closeEventWindow" />
+    <JolinProfileWindow
+      v-show="jolinProfileWindow"
+      @close="closeJolinProfileWindow"
+    />
     <!-- music audio -->
     <div class="window-wrap music-player-window" v-show="musicWindow">
       <div class="window-header">
@@ -237,7 +241,7 @@
             Jolin大紀事
           </div>
         </div>
-        <div class="menu-item">
+        <div class="menu-item" @click="openJolinProfileWindow">
           <div class="menu-item-icon">
             <img
               src="https://picsum.photos/20/20/?random=17"
@@ -292,10 +296,12 @@
 <script>
 import { v4 as uuidv4 } from "uuid";
 import EventWindow from "../components/EventWindow";
+import JolinProfileWindow from "../components/JolinProfileWindow";
 export default {
   name: "Home",
   components: {
     EventWindow,
+    JolinProfileWindow,
   },
   data() {
     return {
@@ -303,6 +309,7 @@ export default {
       menuDisplay: false,
       eventWindow: false,
       musicWindow: true,
+      jolinProfileWindow: false,
       wallpaperChangeWindow: false,
       play: false,
       pause: false,
@@ -537,6 +544,14 @@ export default {
       this.wallpaperChangeWindow = true;
       this.menuDisplay = !this.menuDisplay;
       this.active = !this.active;
+    },
+    openJolinProfileWindow() {
+      this.jolinProfileWindow = true;
+      this.menuDisplay = false;
+      this.active = false;
+    },
+    closeJolinProfileWindow() {
+      this.jolinProfileWindow = false;
     },
   },
   computed: {

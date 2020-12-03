@@ -1,8 +1,8 @@
 <template>
-  <div class="window-wrap event-window" v-show="eventWindow">
+  <div class="window-wrap event-window">
     <div class="window-header">
       <div class="window-title">Jolin大紀事</div>
-      <div class="cross-icon" @click="handleCloseEventWindow">
+      <div class="cross-icon" @click="handleCloseWindow">
         <font-awesome-icon icon="times" class="close-icon" />
       </div>
     </div>
@@ -47,10 +47,7 @@
 export default {
   name: "EventWindow",
   methods: {
-    openEventWindow() {
-      this.eventWindow = true;
-    },
-    handleCloseEventWindow() {
+    handleCloseWindow() {
       this.$emit("close");
     },
   },
