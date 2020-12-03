@@ -173,7 +173,13 @@
       </div>
     </div>
     <!-- wallpaper -->
-    <div
+    <WallpaperWindow
+      :wallpapers="wallpapers"
+      v-show="wallpaperChangeWindow"
+      @close="closeWallpaperWindow"
+      @emitToHomePage="handleWallpaperChange"
+    />
+    <!-- <div
       class="window-wrap wallpaper-change-window"
       v-show="wallpaperChangeWindow"
     >
@@ -210,7 +216,7 @@
       <div class="confirm-button-wrap">
         <div class="confirm-button" @click="comfirmWallpaper">套用</div>
       </div>
-    </div>
+    </div> -->
 
     <div class="desktop-footer">
       <div class="footer-left" @click="clickStart" :class="{ active }">
@@ -302,12 +308,14 @@ import { v4 as uuidv4 } from "uuid";
 import EventWindow from "../components/EventWindow";
 import JolinProfileWindow from "../components/JolinProfileWindow";
 import MyComputerWindow from "../components/MyComputerWindow";
+import WallpaperWindow from "../components/WallpaperWindow";
 export default {
   name: "Home",
   components: {
     EventWindow,
     JolinProfileWindow,
     MyComputerWindow,
+    WallpaperWindow,
   },
   data() {
     return {
@@ -378,8 +386,8 @@ export default {
           title: "消極掰",
         },
       ],
-      wallpapersUrl:
-        "https://i2.wp.com/www.jolinjenerationgallery.com/albums/userpics/10001/Cai20Yi20Lin20_Jolin_Tsai_3C3CZi20Shuo20_Ugly_Beauty3E3E20_05.jpg",
+      // wallpapersUrl:
+      //   "https://i2.wp.com/www.jolinjenerationgallery.com/albums/userpics/10001/Cai20Yi20Lin20_Jolin_Tsai_3C3CZi20Shuo20_Ugly_Beauty3E3E20_05.jpg",
     };
   },
   mounted() {
@@ -534,15 +542,15 @@ export default {
       const newPercent = this.$refs.progress.clientWidth / barWidth;
       this.$refs.audio.currentTime = this.duration * newPercent;
     },
-    changeWallpaper(id) {
-      this.wallpapers.map((item) => {
-        if (item.id === id) {
-          this.wallpapersUrl = item.url;
-        }
-      });
-    },
-    comfirmWallpaper() {
-      this.$emit("handleWallpaperChange", this.wallpapersUrl);
+    // changeWallpaper(id) {
+    //   this.wallpapers.map((item) => {
+    //     if (item.id === id) {
+    //       this.wallpapersUrl = item.url;
+    //     }
+    //   });
+    // },
+    handleWallpaperChange(url) {
+      this.$emit("handleWallpaperChange", url);
     },
     closeWallpaperWindow() {
       this.wallpaperChangeWindow = false;
@@ -913,7 +921,7 @@ export default {
 } */
 
 /* wallpaper */
-.wallpaper-change-window {
+/* .wallpaper-change-window {
   position: absolute;
   top: 50px;
   right: 10%;
@@ -999,7 +1007,7 @@ export default {
   border-left: 1.5px solid var(--dark-red);
   border-right: 1.5px solid var(--light-red);
   border-bottom: 1.5px solid var(--light-red);
-}
+} */
 
 .active {
   border-top: 1.5px solid var(--dark-red);
