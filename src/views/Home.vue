@@ -2,7 +2,7 @@
   <div class="desktop">
     <div class="desktop-app-section" @click="menuClose">
       <div class="desktop-app-group">
-        <div class="desktop-app">
+        <div class="desktop-app" @dblclick="openMyComputerWindow">
           <div class="desktop-app-icon">
             <img
               src="https://picsum.photos/40/40/?random=18"
@@ -66,6 +66,10 @@
     <JolinProfileWindow
       v-show="jolinProfileWindow"
       @close="closeJolinProfileWindow"
+    />
+    <MyComputerWindow
+      v-show="myComputerWindow"
+      @close="closeMyComputerWindow"
     />
     <!-- music audio -->
     <div class="window-wrap music-player-window" v-show="musicWindow">
@@ -271,7 +275,7 @@
           </div>
           <div class="menu-item-title">Network Neighborhood</div>
         </div>
-        <div class="menu-item">
+        <div class="menu-item" @click="openMyComputerWindow">
           <div class="menu-item-icon">
             <img
               src="https://picsum.photos/20/20/?random=18"
@@ -297,11 +301,13 @@
 import { v4 as uuidv4 } from "uuid";
 import EventWindow from "../components/EventWindow";
 import JolinProfileWindow from "../components/JolinProfileWindow";
+import MyComputerWindow from "../components/MyComputerWindow";
 export default {
   name: "Home",
   components: {
     EventWindow,
     JolinProfileWindow,
+    MyComputerWindow,
   },
   data() {
     return {
@@ -311,6 +317,7 @@ export default {
       musicWindow: true,
       jolinProfileWindow: false,
       wallpaperChangeWindow: false,
+      myComputerWindow: false,
       play: false,
       pause: false,
       stop: false,
@@ -552,6 +559,14 @@ export default {
     },
     closeJolinProfileWindow() {
       this.jolinProfileWindow = false;
+    },
+    openMyComputerWindow() {
+      this.myComputerWindow = true;
+      this.menuDisplay = false;
+      this.active = false;
+    },
+    closeMyComputerWindow() {
+      this.myComputerWindow = false;
     },
   },
   computed: {
