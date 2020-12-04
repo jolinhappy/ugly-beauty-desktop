@@ -1,5 +1,11 @@
 <template>
-  <div class="window-wrap music-player-window">
+  <div
+    class="window-wrap music-player-window"
+    @mousedown="clickWindow"
+    @mousemove="moveWindow"
+    @mouseup="finishMove"
+    ref="window"
+  >
     <div class="window-header">
       <div class="window-title">Music Player</div>
       <div class="cross-icon" @click="handleCloseWindow">
@@ -139,6 +145,7 @@ export default {
       current: "",
       active: false,
       musicWindow: true,
+      windowMove: {},
     };
   },
   methods: {
@@ -246,6 +253,38 @@ export default {
       const newPercent = this.$refs.progress.clientWidth / barWidth;
       this.$refs.audio.currentTime = this.duration * newPercent;
     },
+
+    clickWindow(e) {
+      // 紀錄視窗位置及滑鼠位置
+      const className = e.target.className;
+      const { window } = this.$refs;
+      if (className === "window-header") {
+        this.windowMove.start = true;
+        this.windowMove.currentTop = window.offsetTop;
+        this.windowMove.currentLeft = window.offsetLeft;
+        this.windowMove.mouseX = e.clientX;
+        this.windowMove.mouseY = e.clientY;
+      }
+    },
+    moveWindow(e) {
+      if (!this.windowMove.start) {
+        return;
+      }
+      const { window } = this.$refs;
+      const currentMouseX = e.clientX;
+      const currentMouseY = e.clientY;
+      //水平&垂直增加或減少的移動距離(正數或負數)
+      const offsetXvalue = currentMouseX - this.windowMove.mouseX;
+      const offsetYvalue = currentMouseY - this.windowMove.mouseY;
+      //總偏移
+      const totalOffsetX = this.windowMove.currentLeft + offsetXvalue;
+      const totalOffsetY = this.windowMove.currentTop + offsetYvalue;
+      window.style.left = `${totalOffsetX}px`;
+      window.style.top = `${totalOffsetY}px`;
+    },
+    finishMove() {
+      this.windowMove.start = false;
+    },
   },
   computed: {
     percent() {
@@ -278,6 +317,7 @@ export default {
   left: 5%;
   width: 400px;
   height: 150px;
+  z-index: 0;
 }
 .window-title {
   margin-left: 10px;

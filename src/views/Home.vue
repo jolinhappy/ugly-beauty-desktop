@@ -61,6 +61,13 @@
         </div>
       </div>
     </div>
+    <!-- music audio -->
+    <MusicPlayerWindow
+      v-show="musicWindow"
+      :music-list="musicList"
+      ref="player"
+      @close="closeMusicWindow"
+    />
     <!-- event window -->
     <EventWindow v-show="eventWindow" @close="closeEventWindow" />
     <JolinProfileWindow
@@ -70,13 +77,6 @@
     <MyComputerWindow
       v-show="myComputerWindow"
       @close="closeMyComputerWindow"
-    />
-    <!-- music audio -->
-    <MusicPlayerWindow
-      v-show="musicWindow"
-      :music-list="musicList"
-      ref="player"
-      @close="closeMusicWindow"
     />
     <!-- wallpaper -->
     <WallpaperWindow
@@ -284,6 +284,7 @@ export default {
     openMusicWindow() {
       this.musicWindow = true;
       this.menuDisplay = false;
+      this.active = false;
       this.resetMusicPlayerButton();
       const { player } = this.$refs;
       const { audio } = player.$refs;
@@ -326,6 +327,21 @@ export default {
     },
     closeMyComputerWindow() {
       this.myComputerWindow = false;
+    },
+    //拖曳功能
+    clickWindow(e) {
+      console.log(e);
+      console.log("hi");
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      console.log("x", mouseX);
+      console.log("y", mouseY);
+    },
+    moveWindow() {
+      console.log("move");
+    },
+    finishMove() {
+      console.log("stop");
     },
   },
   filters: {
