@@ -7,7 +7,16 @@
     ref="window"
   >
     <div class="window-header">
-      <div class="window-title">My Computer</div>
+      <div class="header-title-wrap">
+        <div class="window-header-icon">
+          <img
+            src="https://i.imgur.com/X8T7qgJ.png"
+            alt="header-icon"
+            class="header-icon-img"
+          />
+        </div>
+        <div class="window-title">My Computer</div>
+      </div>
       <div class="cross-icon" @click="handleCloseWindow">
         <font-awesome-icon icon="times" class="close-icon" />
       </div>
@@ -101,10 +110,6 @@ export default {
   height: 400px;
 }
 
-.window-title {
-  margin-left: 10px;
-  color: var(--white);
-}
 .window-content {
   width: 380px;
   height: 350px;

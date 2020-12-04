@@ -83,8 +83,18 @@ body {
   margin: auto;
 }
 .window-title {
-  margin-left: 10px;
   color: var(--white);
+  line-height: 33px;
+  cursor: default;
+  margin-left: 5px;
+}
+.header-icon-img {
+  width: 30px;
+  height: 30px;
+}
+.header-title-wrap {
+  display: flex;
+  margin-left: 5px;
 }
 .active {
   border-top: 1.5px solid var(--dark-red);

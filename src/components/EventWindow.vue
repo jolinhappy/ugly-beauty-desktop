@@ -7,7 +7,16 @@
     ref="window"
   >
     <div class="window-header">
-      <div class="window-title">Jolin大紀事</div>
+      <div class="header-title-wrap">
+        <div class="window-header-icon">
+          <img
+            src="https://i.imgur.com/yfh7grL.png"
+            alt="header-icon"
+            class="header-icon-img"
+          />
+        </div>
+        <div class="window-title">Jolin大紀事</div>
+      </div>
       <div class="cross-icon" @click="handleCloseWindow">
         <font-awesome-icon icon="times" class="close-icon" />
       </div>
@@ -114,10 +123,6 @@ export default {
   height: 350px;
 }
 
-.window-title {
-  margin-left: 10px;
-  color: var(--white);
-}
 .window-content {
   width: 380px;
   height: 300px;

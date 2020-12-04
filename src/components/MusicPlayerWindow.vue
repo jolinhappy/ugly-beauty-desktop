@@ -7,7 +7,16 @@
     ref="window"
   >
     <div class="window-header">
-      <div class="window-title">Music Player</div>
+      <div class="header-title-wrap">
+        <div class="window-header-icon">
+          <img
+            src="https://i.imgur.com/Htl7ncQ.png"
+            alt="header-icon"
+            class="header-icon-img"
+          />
+        </div>
+        <div class="window-title">Music Player</div>
+      </div>
       <div class="cross-icon" @click="handleCloseWindow">
         <font-awesome-icon icon="times" class="close-icon" />
       </div>
@@ -327,10 +336,7 @@ export default {
   height: 150px;
   z-index: 0;
 }
-.window-title {
-  margin-left: 10px;
-  color: var(--white);
-}
+
 .music-option {
   width: 380px;
   height: 32px;

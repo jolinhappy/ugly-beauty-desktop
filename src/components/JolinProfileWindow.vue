@@ -7,7 +7,16 @@
     ref="window"
   >
     <div class="window-header">
-      <div class="window-title">蔡依林</div>
+      <div class="header-title-wrap">
+        <div class="window-header-icon">
+          <img
+            src="https://i.imgur.com/7sr5riY.png"
+            alt="header-icon"
+            class="header-icon-img"
+          />
+        </div>
+        <div class="window-title">Jolin Profile</div>
+      </div>
       <div class="cross-icon" @click="handleCloseWindow">
         <font-awesome-icon icon="times" class="close-icon" />
       </div>
@@ -99,10 +108,6 @@ export default {
   height: 350px;
 }
 
-.window-title {
-  margin-left: 10px;
-  color: var(--white);
-}
 .window-content {
   width: 380px;
   height: 300px;

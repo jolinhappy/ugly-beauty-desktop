@@ -5,7 +5,7 @@
         <div class="desktop-app" @dblclick="openMyComputerWindow">
           <div class="desktop-app-icon">
             <img
-              src="https://picsum.photos/40/40/?random=18"
+              src="https://i.imgur.com/X8T7qgJ.png"
               alt="app-icon"
               class="icon-img"
             />
@@ -15,7 +15,7 @@
         <div class="desktop-app">
           <div class="desktop-app-icon">
             <img
-              src="https://picsum.photos/40/40/?random=24"
+              src="https://i.imgur.com/tbHxFvg.png"
               alt="app-icon"
               class="icon-img"
             />
@@ -27,7 +27,7 @@
         <div class="desktop-app" @dblclick="openMusicWindow">
           <div class="desktop-app-icon">
             <img
-              src="https://picsum.photos/40/40/?random=1"
+              src="https://i.imgur.com/Htl7ncQ.png"
               alt="app-icon"
               class="icon-img"
             />
@@ -37,7 +37,7 @@
         <div class="desktop-app" @dblclick="openEventWindow">
           <div class="desktop-app-icon">
             <img
-              src="https://picsum.photos/40/40/?random=4"
+              src="https://i.imgur.com/yfh7grL.png"
               alt="app-icon"
               class="icon-img"
             />
@@ -52,7 +52,7 @@
         <div class="desktop-app" @dblclick="openJolinProfileWindow">
           <div class="desktop-app-icon">
             <img
-              src="https://picsum.photos/40/40/?random=17"
+              src="https://i.imgur.com/7sr5riY.png"
               alt="app-icon"
               class="icon-img"
             />
@@ -102,10 +102,7 @@
     <div class="desktop-footer">
       <div class="footer-left" @click="clickStart" :class="{ active }">
         <div class="footer-start-icon">
-          <img
-            src="https://picsum.photos/20/20/?random=30"
-            class="footer-icon-img"
-          />
+          <img src="https://i.imgur.com/6OvpSAS.png" class="footer-icon-img" />
         </div>
         <div class="footer-start-text">開始</div>
       </div>
@@ -113,7 +110,7 @@
         <div class="menu-item">
           <div class="menu-item-icon">
             <img
-              src="https://picsum.photos/20/20/?random=1"
+              src="https://i.imgur.com/Htl7ncQ.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -125,7 +122,7 @@
         <div class="menu-item">
           <div class="menu-item-icon">
             <img
-              src="https://picsum.photos/20/20/?random=4"
+              src="https://i.imgur.com/yfh7grL.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -137,7 +134,7 @@
         <div class="menu-item" @click="openJolinProfileWindow">
           <div class="menu-item-icon">
             <img
-              src="https://picsum.photos/20/20/?random=17"
+              src="https://i.imgur.com/7sr5riY.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -147,7 +144,7 @@
         <div class="menu-item" @click="openWallpaperWindow">
           <div class="menu-item-icon">
             <img
-              src="https://picsum.photos/20/20/?random=29"
+              src="https://i.imgur.com/u0Gkmzl.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -157,7 +154,7 @@
         <div class="menu-item">
           <div class="menu-item-icon">
             <img
-              src="https://picsum.photos/20/20/?random=24"
+              src="https://i.imgur.com/tbHxFvg.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -167,7 +164,7 @@
         <div class="menu-item" @click="openMyComputerWindow">
           <div class="menu-item-icon">
             <img
-              src="https://picsum.photos/20/20/?random=18"
+              src="https://i.imgur.com/X8T7qgJ.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -421,12 +418,17 @@ export default {
   align-items: center;
   margin-bottom: 20px;
 }
+.icon-img {
+  width: 60px;
+  height: 60px;
+}
 .desktop-app-title {
   font-size: 12px;
   color: var(--white);
   margin-top: 8px;
   max-width: 70px;
   text-align: center;
+  cursor: default;
 }
 .clicked {
   background: var(--main-red);
@@ -459,11 +461,13 @@ export default {
   border-bottom: 1.5px solid var(--dark-red);
   cursor: default;
 }
-.footer-start-icon {
-  margin-top: 4px;
+
+.footer-icon-img {
+  width: 30px;
+  height: 30px;
 }
 .footer-start-text {
-  margin-left: 8px;
+  margin-left: 2px;
   font-size: 20px;
 }
 .footer-menu {
@@ -476,6 +480,10 @@ export default {
   border-right: 2px solid var(--middle-red);
   border-bottom: 2px solid var(--middle-red);
   z-index: 99;
+}
+.footer-icon-img {
+  width: 30px;
+  height: 30px;
 }
 .menu-item {
   width: 280px;
@@ -495,6 +503,10 @@ export default {
 .menu-item-title {
   line-height: 70px;
   margin-left: 15px;
+}
+.menu-icon-img {
+  width: 40px;
+  height: 40px;
 }
 
 .footer-right {
