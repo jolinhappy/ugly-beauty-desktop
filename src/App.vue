@@ -87,4 +87,12 @@ body {
 .close-icon {
   margin: auto;
 }
+
+.active {
+  border-top: 1.5px solid var(--dark-red);
+  border-left: 1.5px solid var(--dark-red);
+  border-right: 1.5px solid var(--light-red);
+  border-bottom: 1.5px solid var(--light-red);
+  color: var(--blood-red);
+}
 </style>
