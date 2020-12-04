@@ -37,6 +37,12 @@
 <script>
 export default {
   name: "JolinProfileWindow",
+  props: {
+    maxZIndex: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       windowMove: {},
@@ -57,6 +63,9 @@ export default {
         this.windowMove.mouseX = e.clientX;
         this.windowMove.mouseY = e.clientY;
       }
+      const newZIndex = this.maxZIndex + 2;
+      window.style.zIndex = newZIndex;
+      this.$emit("setMaxZIndex", newZIndex);
     },
     moveWindow(e) {
       if (!this.windowMove.start) {

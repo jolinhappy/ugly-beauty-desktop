@@ -115,6 +115,10 @@ export default {
       type: Array,
       required: true,
     },
+    maxZIndex: {
+      type: Number,
+      required: true,
+    },
   },
   created() {
     this.getCurrentMusic();
@@ -146,6 +150,7 @@ export default {
       active: false,
       musicWindow: true,
       windowMove: {},
+      ZIndex: 1,
     };
   },
   methods: {
@@ -265,6 +270,9 @@ export default {
         this.windowMove.mouseX = e.clientX;
         this.windowMove.mouseY = e.clientY;
       }
+      const newZIndex = this.maxZIndex + 2;
+      window.style.zIndex = newZIndex;
+      this.$emit("setMaxZIndex", newZIndex);
     },
     moveWindow(e) {
       if (!this.windowMove.start) {
@@ -313,8 +321,8 @@ export default {
 <style scoped>
 .music-player-window {
   position: absolute;
-  top: 300px;
-  left: 5%;
+  top: 100px;
+  left: 65%;
   width: 400px;
   height: 150px;
   z-index: 0;

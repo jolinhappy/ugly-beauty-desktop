@@ -13,8 +13,6 @@ export default {
     handleChange(url) {
       const body = document.querySelector("body");
       body.setAttribute("style", `background-image:url(${url})`);
-      console.log(body);
-      console.log(url);
     },
   },
 };
@@ -41,9 +39,6 @@ export default {
   --text-black: #252223;
   height: 100%;
   width: 100%;
-  /* background-image: url(https://i2.wp.com/www.jolinjenerationgallery.com/albums/userpics/10001/Cai20Yi20Lin20_Jolin_Tsai_3C3CZi20Shuo20_Ugly_Beauty3E3E20_05.jpg);
-  background-size: cover;
-  font-family: "FZXS14--GB1-0"; */
 }
 body {
   background-image: url(https://i2.wp.com/www.jolinjenerationgallery.com/albums/userpics/10001/Cai20Yi20Lin20_Jolin_Tsai_3C3CZi20Shuo20_Ugly_Beauty3E3E20_05.jpg);
@@ -87,7 +82,10 @@ body {
 .close-icon {
   margin: auto;
 }
-
+.window-title {
+  margin-left: 10px;
+  color: var(--white);
+}
 .active {
   border-top: 1.5px solid var(--dark-red);
   border-left: 1.5px solid var(--dark-red);

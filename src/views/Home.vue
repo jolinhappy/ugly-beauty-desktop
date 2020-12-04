@@ -67,16 +67,28 @@
       :music-list="musicList"
       ref="player"
       @close="closeMusicWindow"
+      :max-z-index="maxZIndex"
+      @setMaxZIndex="handleSet"
     />
     <!-- event window -->
-    <EventWindow v-show="eventWindow" @close="closeEventWindow" />
+    <EventWindow
+      v-show="eventWindow"
+      @close="closeEventWindow"
+      :max-z-index="maxZIndex"
+      @setMaxZIndex="handleSet"
+      ref="event"
+    />
     <JolinProfileWindow
       v-show="jolinProfileWindow"
       @close="closeJolinProfileWindow"
+      :max-z-index="maxZIndex"
+      ref="profile"
     />
     <MyComputerWindow
       v-show="myComputerWindow"
       @close="closeMyComputerWindow"
+      :max-z-index="maxZIndex"
+      ref="computer"
     />
     <!-- wallpaper -->
     <WallpaperWindow
@@ -84,6 +96,8 @@
       v-show="wallpaperChangeWindow"
       @close="closeWallpaperWindow"
       @emitToHomePage="handleWallpaperChange"
+      :max-z-index="maxZIndex"
+      ref="wallpaper"
     />
     <div class="desktop-footer">
       <div class="footer-left" @click="clickStart" :class="{ active }">
@@ -245,6 +259,7 @@ export default {
           title: "消極掰",
         },
       ],
+      maxZIndex: 5,
     };
   },
   mounted() {
@@ -277,6 +292,11 @@ export default {
     openEventWindow() {
       this.eventWindow = true;
       this.menuDisplay = false;
+      this.active = false;
+      this.maxZIndex = this.maxZIndex + 2;
+      const { event } = this.$refs;
+      const { window } = event.$refs;
+      window.style.zIndex = this.maxZIndex;
     },
     closeEventWindow() {
       this.eventWindow = false;
@@ -291,6 +311,9 @@ export default {
       player.currentMusicSrc = this.musicList[0].src;
       player.currentMusicName = this.musicList[0].name;
       audio.play();
+      this.maxZIndex = this.maxZIndex + 2;
+      const { window } = player.$refs;
+      window.style.zIndex = this.maxZIndex;
     },
     closeMusicWindow() {
       this.musicWindow = false;
@@ -310,12 +333,20 @@ export default {
     openWallpaperWindow() {
       this.wallpaperChangeWindow = true;
       this.menuDisplay = !this.menuDisplay;
-      this.active = !this.active;
+      this.active = false;
+      this.maxZIndex = this.maxZIndex + 2;
+      const { wallpaper } = this.$refs;
+      const { window } = wallpaper.$refs;
+      window.style.zIndex = this.maxZIndex;
     },
     openJolinProfileWindow() {
       this.jolinProfileWindow = true;
       this.menuDisplay = false;
       this.active = false;
+      this.maxZIndex = this.maxZIndex + 2;
+      const { profile } = this.$refs;
+      const { window } = profile.$refs;
+      window.style.zIndex = this.maxZIndex;
     },
     closeJolinProfileWindow() {
       this.jolinProfileWindow = false;
@@ -324,24 +355,18 @@ export default {
       this.myComputerWindow = true;
       this.menuDisplay = false;
       this.active = false;
+      this.maxZIndex = this.maxZIndex + 2;
+      const { computer } = this.$refs;
+      const { window } = computer.$refs;
+      window.style.zIndex = this.maxZIndex;
     },
     closeMyComputerWindow() {
       this.myComputerWindow = false;
     },
-    //拖曳功能
-    clickWindow(e) {
-      console.log(e);
-      console.log("hi");
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-      console.log("x", mouseX);
-      console.log("y", mouseY);
-    },
-    moveWindow() {
-      console.log("move");
-    },
-    finishMove() {
-      console.log("stop");
+    handleSet(newZIndex) {
+      if (this.maxZIndex < newZIndex) {
+        this.maxZIndex = newZIndex;
+      }
     },
   },
   filters: {
@@ -418,7 +443,7 @@ export default {
   align-items: center;
   color: var(--white);
   border-top: 1.5px solid var(--light-red);
-  z-index: 1;
+  z-index: 98;
 }
 
 .footer-left {
@@ -450,7 +475,7 @@ export default {
   border-top: 2px solid var(--light-red);
   border-right: 2px solid var(--middle-red);
   border-bottom: 2px solid var(--middle-red);
-  z-index: 5;
+  z-index: 99;
 }
 .menu-item {
   width: 280px;
