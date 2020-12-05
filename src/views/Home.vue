@@ -59,7 +59,7 @@
               class="icon-img"
             />
           </div>
-          <div class="desktop-app-title">蔡依林</div>
+          <div class="desktop-app-title">Who is Jolin Tsai?</div>
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@
         <div class="footer-start-icon">
           <img src="https://i.imgur.com/6OvpSAS.png" class="footer-icon-img" />
         </div>
-        <div class="footer-start-text">開始</div>
+        <div class="footer-start-text">Start</div>
       </div>
       <div class="footer-menu" v-show="menuDisplay">
         <div class="menu-item" @click="openMusicWindow">
@@ -137,7 +137,7 @@
               class="menu-icon-img"
             />
           </div>
-          <div class="menu-item-title">蔡依林</div>
+          <div class="menu-item-title">Who is Jolin Tsai?</div>
         </div>
         <div class="menu-item" @click="openWallpaperWindow">
           <div class="menu-item-icon">
@@ -474,7 +474,7 @@ export default {
 
 .footer-left {
   margin-left: 10px;
-  width: 80px;
+  width: 90px;
   height: 30px;
   display: flex;
   justify-content: center;
@@ -491,7 +491,6 @@ export default {
   height: 30px;
 }
 .footer-start-text {
-  margin-left: 2px;
   font-size: 20px;
 }
 .footer-menu {

@@ -209,6 +209,9 @@ export default {
       console.log(timer);
     },
     changeMusic(id) {
+      this.play = false;
+      this.stop = false;
+      this.pause = false;
       this.musicList.map((music) => {
         if (music.id === id) {
           this.currentMusicName = music.name;
@@ -232,6 +235,7 @@ export default {
       this.defaultMusic = [...this.musicList];
     },
     autoPlay() {
+      this.play = false;
       const { audio } = this.$refs;
       const playPromise = audio.play();
       if (playPromise !== null) {

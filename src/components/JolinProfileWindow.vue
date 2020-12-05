@@ -15,7 +15,7 @@
             class="header-icon-img"
           />
         </div>
-        <div class="window-title">Jolin Profile</div>
+        <div class="window-title">Who is Jolin Tsai?</div>
       </div>
       <div class="cross-icon" @click="handleCloseWindow">
         <font-awesome-icon icon="times" class="close-icon" />
@@ -23,7 +23,7 @@
     </div>
     <div class="window-content">
       <div class="profile-content-wrap">
-        <div class="content-tite">蔡依林</div>
+        <div class="content-title">Jolin Tsai</div>
         <div class="profile-image">
           <img
             src="https://pad.chinatimes.com/NewsSource/ClipXML/CTW/2152B/img/WB215200560.jpg"
@@ -32,10 +32,12 @@
           />
         </div>
         <ul class="profile-list-group">
-          <li class="profile-list">姓名：蔡依林</li>
-          <li class="profile-list">英文名：Jolin Tsai</li>
-          <li class="profile-list">生日：09/15</li>
-          <li class="profile-list">：仁大學英文系</li>
+          <li class="profile-list">Taiwanese singer</li>
+          <li class="profile-list">Name：蔡依林(Jolin Tsai)</li>
+          <li class="profile-list">Birthday：09/15</li>
+          <li class="profile-list">Education：Fu Jen Catholic University</li>
+          <li class="profile-list">Famous Songs: Ugly Beauty, Play</li>
+          <li class="profile-list">Hobbies: making fondant cakes</li>
         </ul>
         <div class="profile-image"></div>
       </div>
@@ -128,8 +130,8 @@ export default {
   height: 3px;
 }
 .content-title {
-  font-size: 50px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 900;
 }
 .profile-content-wrap {
   width: 340px;
