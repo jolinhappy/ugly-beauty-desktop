@@ -1,5 +1,6 @@
 <template>
   <div class="desktop">
+    <Spinner v-if="loading" />
     <div class="desktop-app-section" @click="menuClose">
       <div class="desktop-app-group">
         <div class="desktop-app" @dblclick="openMyComputerWindow">
@@ -144,7 +145,7 @@
         <div class="menu-item" @click="openWallpaperWindow">
           <div class="menu-item-icon">
             <img
-              src="https://i.imgur.com/u0Gkmzl.png"
+              src="https://i.imgur.com/Ou52SXk.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -190,6 +191,7 @@ import JolinProfileWindow from "../components/JolinProfileWindow";
 import MyComputerWindow from "../components/MyComputerWindow";
 import WallpaperWindow from "../components/WallpaperWindow";
 import MusicPlayerWindow from "../components/MusicPlayerWindow";
+import Spinner from "../components/Spinner";
 export default {
   name: "Home",
   components: {
@@ -198,6 +200,7 @@ export default {
     MyComputerWindow,
     WallpaperWindow,
     MusicPlayerWindow,
+    Spinner,
   },
   data() {
     return {
@@ -208,6 +211,7 @@ export default {
       jolinProfileWindow: false,
       wallpaperChangeWindow: false,
       myComputerWindow: false,
+      loading: true,
       hour: null,
       minute: null,
       second: null,
@@ -258,6 +262,14 @@ export default {
       ],
       maxZIndex: 5,
     };
+  },
+  created() {
+    setTimeout(() => {
+      this.loadingEnd();
+      const { player } = this.$refs;
+      const { audio } = player.$refs;
+      audio.play();
+    }, 3000);
   },
   mounted() {
     this.timer = setInterval(() => {
@@ -364,6 +376,9 @@ export default {
       if (this.maxZIndex < newZIndex) {
         this.maxZIndex = newZIndex;
       }
+    },
+    loadingEnd() {
+      this.loading = false;
     },
   },
   filters: {

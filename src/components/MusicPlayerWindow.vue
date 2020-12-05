@@ -26,7 +26,7 @@
       :src="currentMusicSrc"
       controls
       hidden
-      autoplay
+      preload="none"
       ref="audio"
       @canplay="getDurationTime"
       @ended="autoPlay"
@@ -214,6 +214,17 @@ export default {
           this.currentMusicName = music.name;
           this.currentMusicSrc = music.src;
           this.listToggle = false;
+          const { audio } = this.$refs;
+          const playPromise = audio.play();
+          if (playPromise !== null) {
+            playPromise
+              .then(() => {
+                audio.play();
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
         }
       });
     },
@@ -221,20 +232,31 @@ export default {
       this.defaultMusic = [...this.musicList];
     },
     autoPlay() {
-      const musicItem = this.defaultMusic.shift();
       const { audio } = this.$refs;
-      if (this.currentMusicSrc === musicItem.src) {
-        this.defaultMusic.push(musicItem);
-        const newPlayMusic = this.defaultMusic.shift();
-        this.currentMusicSrc = newPlayMusic.src;
-        this.currentMusicName = newPlayMusic.name;
-        this.defaultMusic.push(newPlayMusic);
-      } else {
-        this.currentMusicSrc = musicItem.src;
-        this.currentMusicName = musicItem.name;
-        this.defaultMusic.push(musicItem);
+      const playPromise = audio.play();
+      if (playPromise !== null) {
+        playPromise
+          .then(() => {
+            const musicItem = this.defaultMusic.shift();
+            if (this.currentMusicSrc === musicItem.src) {
+              this.defaultMusic.push(musicItem);
+              const newPlayMusic = this.defaultMusic.shift();
+              this.currentMusicSrc = newPlayMusic.src;
+              this.currentMusicName = newPlayMusic.name;
+              this.defaultMusic.push(newPlayMusic);
+            } else {
+              this.currentMusicSrc = musicItem.src;
+              this.currentMusicName = musicItem.name;
+              this.defaultMusic.push(musicItem);
+            }
+          })
+          .then(() => {
+            audio.play();
+          })
+          .catch((error) => {
+            console.log("error", error);
+          });
       }
-      audio.play();
     },
     progressTouch(e) {
       this.progressData.start = true;
@@ -331,7 +353,7 @@ export default {
 .music-player-window {
   position: absolute;
   top: 100px;
-  left: 65%;
+  left: 45%;
   width: 400px;
   height: 150px;
   z-index: 0;

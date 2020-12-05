@@ -15,7 +15,7 @@
             class="header-icon-img"
           />
         </div>
-        <div class="window-title">wallpaper Change</div>
+        <div class="window-title">Wallpaper Change</div>
       </div>
       <div class="cross-icon" @click="handleCloseWindow">
         <font-awesome-icon icon="times" class="close-icon" />

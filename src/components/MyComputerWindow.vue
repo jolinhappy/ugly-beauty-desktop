@@ -23,7 +23,7 @@
     </div>
     <div class="window-content">
       <div class="computer-content-wrap">
-        <div class="content-tite">【五百人製作Team】</div>
+        <div class="content-title">【五百人製作Team】</div>
         <div class="line"></div>
         <ul class="main-content-wrap">
           <li class="item">企劃：文科少女</li>
@@ -142,8 +142,10 @@ export default {
   margin: 10px 0px 0px 20px;
   width: 300px;
 }
-.content-tite {
+.content-title {
   margin-bottom: 18px;
+  font-weight: 900;
+  color: var(--blood-red);
 }
 .line {
   position: absolute;
