@@ -13,16 +13,22 @@
           </div>
           <div class="desktop-app-title">My Computer</div>
         </div>
-        <div class="desktop-app">
-          <div class="desktop-app-icon">
-            <img
-              src="https://i.imgur.com/tbHxFvg.png"
-              alt="app-icon"
-              class="icon-img"
-            />
+        <a
+          href="https://www.facebook.com/search/top?q=%E8%94%A1%E4%BE%9D%E6%9E%97%20jolin%20tsai"
+          target="_blank"
+          class="facebook-link"
+        >
+          <div class="desktop-app">
+            <div class="desktop-app-icon">
+              <img
+                src="https://i.imgur.com/tbHxFvg.png"
+                alt="app-icon"
+                class="icon-img"
+              />
+            </div>
+            <div class="desktop-app-title">Network Neighborhood</div>
           </div>
-          <div class="desktop-app-title">Network Neighborhood</div>
-        </div>
+        </a>
       </div>
       <div class="desktop-app-group">
         <div class="desktop-app" @dblclick="openMusicWindow">
@@ -43,12 +49,7 @@
               class="icon-img"
             />
           </div>
-          <div
-            class="desktop-app-title"
-            :class="{ clicked: eventWindow === true }"
-          >
-            Jolin大紀事
-          </div>
+          <div class="desktop-app-title">Jolin大紀事</div>
         </div>
         <div class="desktop-app" @dblclick="openJolinProfileWindow">
           <div class="desktop-app-icon">
@@ -108,7 +109,7 @@
         <div class="footer-start-text">開始</div>
       </div>
       <div class="footer-menu" v-show="menuDisplay">
-        <div class="menu-item">
+        <div class="menu-item" @click="openMusicWindow">
           <div class="menu-item-icon">
             <img
               src="https://i.imgur.com/Htl7ncQ.png"
@@ -116,11 +117,9 @@
               class="menu-icon-img"
             />
           </div>
-          <div class="menu-item-title" @click="openMusicWindow">
-            Music Player
-          </div>
+          <div class="menu-item-title">Music Player</div>
         </div>
-        <div class="menu-item">
+        <div class="menu-item" @click="openEventWindow">
           <div class="menu-item-icon">
             <img
               src="https://i.imgur.com/yfh7grL.png"
@@ -128,9 +127,7 @@
               class="menu-icon-img"
             />
           </div>
-          <div class="menu-item-title" @click="openEventWindow">
-            Jolin大紀事
-          </div>
+          <div class="menu-item-title">Jolin大紀事</div>
         </div>
         <div class="menu-item" @click="openJolinProfileWindow">
           <div class="menu-item-icon">
@@ -152,16 +149,22 @@
           </div>
           <div class="menu-item-title">Wallpaper Change</div>
         </div>
-        <div class="menu-item">
-          <div class="menu-item-icon">
-            <img
-              src="https://i.imgur.com/tbHxFvg.png"
-              alt="menu-icon"
-              class="menu-icon-img"
-            />
+        <a
+          href="https://www.facebook.com/search/top?q=%E8%94%A1%E4%BE%9D%E6%9E%97%20jolin%20tsai"
+          target="_blank"
+          class="facebook-link"
+        >
+          <div class="menu-item">
+            <div class="menu-item-icon">
+              <img
+                src="https://i.imgur.com/tbHxFvg.png"
+                alt="menu-icon"
+                class="menu-icon-img"
+              />
+            </div>
+            <div class="menu-item-title">Network Neighborhood</div>
           </div>
-          <div class="menu-item-title">Network Neighborhood</div>
-        </div>
+        </a>
         <div class="menu-item" @click="openMyComputerWindow">
           <div class="menu-item-icon">
             <img
@@ -290,6 +293,7 @@ export default {
       this.menuDisplay = !this.menuDisplay;
     },
     menuClose() {
+      this.clicked = false;
       const { player } = this.$refs;
       if (this.menuDisplay) {
         this.menuDisplay = !this.menuDisplay;
@@ -447,6 +451,11 @@ export default {
 }
 .clicked {
   background: var(--main-red);
+}
+.facebook-link {
+  cursor: default;
+  text-decoration: none;
+  color: white;
 }
 
 .desktop-footer {
