@@ -28,6 +28,7 @@
       hidden
       preload="none"
       ref="audio"
+      muted="muted"
       @canplay="getDurationTime"
       @ended="autoPlay"
     >
