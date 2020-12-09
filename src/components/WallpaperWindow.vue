@@ -178,7 +178,6 @@ export default {
 }
 .wallpaper-item {
   text-align: center;
-  cursor: pointer;
 }
 .wallpaper-image-wrap {
   margin: 35px 20px 5px 25px;
@@ -205,7 +204,6 @@ export default {
   text-align: center;
   line-height: 25px;
   margin-top: 5px;
-  cursor: default;
 }
 .confirm-button:hover {
   border-top: 1.5px solid var(--dark-red);

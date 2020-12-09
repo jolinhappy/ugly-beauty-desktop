@@ -227,15 +227,15 @@ export default {
         },
         {
           id: uuidv4(),
-          name: "怪美的",
+          name: "怪美的(Cover)",
           src:
-            "http://s85.youtaker.com/other/2019/12-5/mp33874236080c025e95ca134a93ac2ff393fc09b28985.mp3",
+            "http://s85.youtaker.com/other/2020/12-9/mp3692001690c70ab636a5cf4e6eb5c910fcf5597d0485.mp3",
         },
         {
           id: uuidv4(),
-          name: "玫瑰少年",
+          name: "玫瑰少年(Cover)",
           src:
-            "http://s85.youtaker.com/other/2019/12-1/mp3559071610fe67a557a05a43d09c4c68fb7530d1dc85.mp3",
+            "http://s85.youtaker.com/other/2020/12-9/mp3727647046088c64cefbe342f1a591ba489773ad4585.mp3",
         },
       ],
       wallpapers: [
@@ -447,13 +447,11 @@ export default {
   margin-top: 8px;
   max-width: 70px;
   text-align: center;
-  cursor: default;
 }
 .clicked {
   background: var(--main-red);
 }
 .facebook-link {
-  cursor: default;
   text-decoration: none;
   color: white;
 }
@@ -483,7 +481,6 @@ export default {
   border-left: 1.5px solid var(--light-red);
   border-right: 1.5px solid var(--dark-red);
   border-bottom: 1.5px solid var(--dark-red);
-  cursor: default;
 }
 
 .footer-icon-img {
@@ -513,7 +510,6 @@ export default {
   height: 60px;
   display: flex;
   align-items: center;
-  cursor: default;
 }
 .menu-item:hover {
   background: pink;

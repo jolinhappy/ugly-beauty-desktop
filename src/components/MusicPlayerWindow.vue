@@ -411,13 +411,11 @@ export default {
 .music-item:hover {
   background: pink;
   color: var(--blood-red);
-  cursor: default;
 }
 
 .music-player-progress {
   width: 380px;
   height: 20px;
-  /* background: var(--text-black); */
   margin: auto;
   display: flex;
 }
