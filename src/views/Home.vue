@@ -1,6 +1,6 @@
 <template>
   <div class="desktop">
-    <Spinner v-if="loading" />
+    <Spinner @handleEndLoading="clickToEndLoad" v-if="loading" />
     <div class="desktop-app-section" @click="menuClose">
       <div class="desktop-app-group">
         <div class="desktop-app" @dblclick="openMyComputerWindow">
@@ -223,19 +223,19 @@ export default {
           id: uuidv4(),
           name: "紅衣女孩",
           src:
-            "http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3",
+            "https://media1.vocaroo.com/mp3/139PPTdqf3W5",
         },
         {
           id: uuidv4(),
           name: "怪美的(Cover)",
           src:
-            "http://s85.youtaker.com/other/2020/12-9/mp3692001690c70ab636a5cf4e6eb5c910fcf5597d0485.mp3",
+            "https://media1.vocaroo.com/mp3/1jozwDLv8LPA",
         },
         {
           id: uuidv4(),
           name: "玫瑰少年(Cover)",
           src:
-            "http://s85.youtaker.com/other/2020/12-9/mp3727647046088c64cefbe342f1a591ba489773ad4585.mp3",
+            "https://media1.vocaroo.com/mp3/11mZB2yMkpzX",
         },
       ],
       wallpapers: [
@@ -266,14 +266,6 @@ export default {
       maxZIndex: 5,
     };
   },
-  created() {
-    // setTimeout(() => {
-    //   this.loadingEnd();
-    //   const { player } = this.$refs;
-    //   const { audio } = player.$refs;
-    //   audio.play();
-    // }, 3000);
-  },
   mounted() {
     this.timer = setInterval(() => {
       const NowDate = new Date();
@@ -281,12 +273,6 @@ export default {
       this.minute = NowDate.getMinutes();
       this.second = NowDate.getSeconds();
     }, 1000);
-      setTimeout(() => {
-      this.loadingEnd();
-      const { player } = this.$refs;
-      const { audio } = player.$refs;
-      audio.play();
-    }, 3000);
   },
   beforeDestroy() {
     if (this.timer) {
@@ -387,8 +373,11 @@ export default {
         this.maxZIndex = newZIndex;
       }
     },
-    loadingEnd() {
+    clickToEndLoad() {
       this.loading = false;
+      const { player } = this.$refs;
+      const { audio } = player.$refs;
+      audio.play();
     },
   },
   filters: {

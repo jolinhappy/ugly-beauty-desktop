@@ -1,10 +1,23 @@
 <template>
-  <div class="spinner-wrap">
+  <div class="spinner-wrap" @click="endLoading">
     <div class="img-wrap">
       <img src="https://i.imgur.com/6OvpSAS.png" alt="" class="img" />
     </div>
+    <div class="text">
+      click to enter！
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    endLoading () {
+      this.$emit('handleEndLoading')
+    }
+  }
+}
+</script>
 
 <style scoped>
 .spinner-wrap {
@@ -17,11 +30,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 .img {
   width: 200px;
   height: 200px;
   animation: action 0.75s infinite;
+}
+.text {
+  font-size: 30px;
+  color: white;
+  animation: textAction 1s ease-out infinite;
 }
 
 @keyframes action {
@@ -36,6 +55,21 @@
   }
   to {
     transform: rotate(90deg);
+  }
+}
+
+@keyframes textAction {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 1;
+  }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.1;
   }
 }
 </style>

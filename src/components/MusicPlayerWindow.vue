@@ -148,7 +148,7 @@ export default {
       defaultMusic: [],
       currentMusicName: "紅衣女孩",
       currentMusicSrc:
-        "http://s80.youtaker.com/other/2019/3-25/mp3979989727942cfae287494da9815b974f61962c5780.mp3",
+        "https://media1.vocaroo.com/mp3/139PPTdqf3W5",
       play: false,
       pause: false,
       stop: false,
@@ -172,7 +172,6 @@ export default {
     },
     playMusic() {
       const { audio } = this.$refs;
-      // audio.play();
        const playPromise = audio.play();
           if (playPromise !== null) {
             playPromise
