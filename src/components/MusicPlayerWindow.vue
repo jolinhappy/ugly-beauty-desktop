@@ -26,11 +26,11 @@
       :src="currentMusicSrc"
       controls
       hidden
-      preload="none"
       ref="audio"
       muted="muted"
       @canplay="getDurationTime"
       @ended="autoPlay"
+      type="audio/mpeg"
     >
       Your browser does not support
     </audio>
@@ -172,7 +172,17 @@ export default {
     },
     playMusic() {
       const { audio } = this.$refs;
-      audio.play();
+      // audio.play();
+       const playPromise = audio.play();
+          if (playPromise !== null) {
+            playPromise
+              .then(() => {
+                audio.play();
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
       this.play = true;
       this.stop = false;
       this.pause = false;

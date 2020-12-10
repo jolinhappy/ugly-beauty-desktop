@@ -86,7 +86,6 @@ body {
 .window-title {
   color: var(--white);
   line-height: 33px;
-  cursor: default;
   margin-left: 5px;
 }
 .header-icon-img {

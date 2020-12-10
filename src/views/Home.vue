@@ -267,12 +267,12 @@ export default {
     };
   },
   created() {
-    setTimeout(() => {
-      this.loadingEnd();
-      const { player } = this.$refs;
-      const { audio } = player.$refs;
-      audio.play();
-    }, 3000);
+    // setTimeout(() => {
+    //   this.loadingEnd();
+    //   const { player } = this.$refs;
+    //   const { audio } = player.$refs;
+    //   audio.play();
+    // }, 3000);
   },
   mounted() {
     this.timer = setInterval(() => {
@@ -281,6 +281,12 @@ export default {
       this.minute = NowDate.getMinutes();
       this.second = NowDate.getSeconds();
     }, 1000);
+      setTimeout(() => {
+      this.loadingEnd();
+      const { player } = this.$refs;
+      const { audio } = player.$refs;
+      audio.play();
+    }, 3000);
   },
   beforeDestroy() {
     if (this.timer) {
