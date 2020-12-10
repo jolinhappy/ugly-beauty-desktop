@@ -176,6 +176,17 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
+.wallpaper-list-wrap::-webkit-scrollbar {
+  background: var(--light-red);
+  width: 20px;
+}
+.wallpaper-list-wrap::-webkit-scrollbar-thumb {
+  background: var(--main-red);
+  border-top: 1.5px solid var(--light-red);
+  border-right: 1px solid var(--dark-red);
+  border-bottom: 1.4px solid var(--middle-red);
+  height: 3px;
+}
 .wallpaper-item {
   text-align: center;
 }
