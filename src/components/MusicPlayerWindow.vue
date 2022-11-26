@@ -10,7 +10,7 @@
       <div class="header-title-wrap">
         <div class="window-header-icon">
           <img
-            src="https://i.imgur.com/Htl7ncQ.png"
+            src="@/assets/img/player.png"
             alt="header-icon"
             class="header-icon-img"
           />
@@ -23,7 +23,7 @@
     </div>
     <audio
       id="music1"
-      :src="currentMusicSrc"
+      :src="require(`@/assets/music/${currentMusicSrc}.mp3`)"
       controls
       hidden
       ref="audio"
@@ -105,13 +105,6 @@
           <font-awesome-icon icon="volume-up" v-if="volume" />
           <font-awesome-icon icon="volume-off" v-else />
         </div>
-        <!-- <div class="music-player-volume-control">
-            <div class="volume-control-bar">
-              <div class="volume-control-button-wrap">
-                <div class="volum-control button"></div>
-              </div>
-            </div>
-          </div> -->
       </div>
     </div>
   </div>
@@ -148,7 +141,7 @@ export default {
       defaultMusic: [],
       currentMusicName: "紅衣女孩",
       currentMusicSrc:
-        "https://media1.vocaroo.com/mp3/139PPTdqf3W5",
+        "ladyInRed",
       play: false,
       pause: false,
       stop: false,
@@ -213,10 +206,10 @@ export default {
       this.getCurrentTime();
     },
     getCurrentTime() {
+      // eslint-disable-next-line no-unused-vars
       const timer = setInterval(() => {
         this.current = parseInt(this.$refs.audio.currentTime);
       }, 1000);
-      console.log(timer);
     },
     changeMusic(id) {
       this.play = false;

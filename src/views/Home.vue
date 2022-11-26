@@ -6,7 +6,7 @@
         <div class="desktop-app" @dblclick="openMyComputerWindow">
           <div class="desktop-app-icon">
             <img
-              src="https://i.imgur.com/X8T7qgJ.png"
+              src="@/assets/img/computer.png"
               alt="app-icon"
               class="icon-img"
             />
@@ -21,7 +21,7 @@
           <div class="desktop-app">
             <div class="desktop-app-icon">
               <img
-                src="https://i.imgur.com/tbHxFvg.png"
+                src="@/assets/img/twoComputer.png"
                 alt="app-icon"
                 class="icon-img"
               />
@@ -34,7 +34,7 @@
         <div class="desktop-app" @dblclick="openMusicWindow">
           <div class="desktop-app-icon">
             <img
-              src="https://i.imgur.com/Htl7ncQ.png"
+              src="@/assets/img/player.png"
               alt="app-icon"
               class="icon-img"
             />
@@ -44,7 +44,7 @@
         <div class="desktop-app" @dblclick="openEventWindow">
           <div class="desktop-app-icon">
             <img
-              src="https://i.imgur.com/yfh7grL.png"
+              src="@/assets/img/event.png"
               alt="app-icon"
               class="icon-img"
             />
@@ -54,7 +54,7 @@
         <div class="desktop-app" @dblclick="openJolinProfileWindow">
           <div class="desktop-app-icon">
             <img
-              src="https://i.imgur.com/7sr5riY.png"
+              src="@/assets/img/note.png"
               alt="app-icon"
               class="icon-img"
             />
@@ -104,7 +104,7 @@
     <div class="desktop-footer">
       <div class="footer-left" @click="clickStart" :class="{ active }">
         <div class="footer-start-icon">
-          <img src="https://i.imgur.com/6OvpSAS.png" class="footer-icon-img" />
+          <img src="@/assets/img/axe.png" class="footer-icon-img" />
         </div>
         <div class="footer-start-text">Start</div>
       </div>
@@ -112,7 +112,7 @@
         <div class="menu-item" @click="openMusicWindow">
           <div class="menu-item-icon">
             <img
-              src="https://i.imgur.com/Htl7ncQ.png"
+              src="@/assets/img/player.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -122,7 +122,7 @@
         <div class="menu-item" @click="openEventWindow">
           <div class="menu-item-icon">
             <img
-              src="https://i.imgur.com/yfh7grL.png"
+              src="@/assets/img/event.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -132,7 +132,7 @@
         <div class="menu-item" @click="openJolinProfileWindow">
           <div class="menu-item-icon">
             <img
-              src="https://i.imgur.com/7sr5riY.png"
+              src="@/assets/img/note.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -142,7 +142,7 @@
         <div class="menu-item" @click="openWallpaperWindow">
           <div class="menu-item-icon">
             <img
-              src="https://i.imgur.com/Ou52SXk.png"
+              src="@/assets/img/option.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -150,14 +150,14 @@
           <div class="menu-item-title">Wallpaper Change</div>
         </div>
         <a
-          href="https://www.facebook.com/search/top?q=%E8%94%A1%E4%BE%9D%E6%9E%97%20jolin%20tsai"
+          href="https://www.facebook.com/hoo.jcai"
           target="_blank"
           class="facebook-link"
         >
           <div class="menu-item">
             <div class="menu-item-icon">
               <img
-                src="https://i.imgur.com/tbHxFvg.png"
+                src="@/assets/img/twoComputer.png"
                 alt="menu-icon"
                 class="menu-icon-img"
               />
@@ -168,7 +168,7 @@
         <div class="menu-item" @click="openMyComputerWindow">
           <div class="menu-item-icon">
             <img
-              src="https://i.imgur.com/X8T7qgJ.png"
+              src="@/assets/img/computer.png"
               alt="menu-icon"
               class="menu-icon-img"
             />
@@ -223,19 +223,19 @@ export default {
           id: uuidv4(),
           name: "紅衣女孩",
           src:
-            "https://media1.vocaroo.com/mp3/139PPTdqf3W5",
+            "ladyInRed",
         },
         {
           id: uuidv4(),
           name: "怪美的(Cover)",
           src:
-            "https://media1.vocaroo.com/mp3/1jozwDLv8LPA",
+            "uglyBeauty_cover",
         },
         {
           id: uuidv4(),
           name: "玫瑰少年(Cover)",
           src:
-            "https://media1.vocaroo.com/mp3/11mZB2yMkpzX",
+            "womxnly_cover",
         },
       ],
       wallpapers: [

@@ -10,7 +10,7 @@
       <div class="header-title-wrap">
         <div class="window-header-icon">
           <img
-            src="https://i.imgur.com/X8T7qgJ.png"
+            src="@/assets/img/computer.png"
             alt="header-icon"
             class="header-icon-img"
           />

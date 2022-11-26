@@ -10,7 +10,7 @@
       <div class="header-title-wrap">
         <div class="window-header-icon">
           <img
-            src="https://i.imgur.com/7sr5riY.png"
+            src="@/assets/img/note.png"
             alt="header-icon"
             class="header-icon-img"
           />
@@ -26,7 +26,7 @@
         <div class="content-title">Jolin Tsai</div>
         <div class="profile-image">
           <img
-            src="https://pad.chinatimes.com/NewsSource/ClipXML/CTW/2152B/img/WB215200560.jpg"
+            src="@/assets/img/jolin.jpg"
             alt="Jolin-image"
             class="jolin-img"
           />

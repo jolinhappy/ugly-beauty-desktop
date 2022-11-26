@@ -1,7 +1,7 @@
 <template>
   <div class="spinner-wrap" @click="endLoading">
     <div class="img-wrap">
-      <img src="https://i.imgur.com/6OvpSAS.png" alt="" class="img" />
+      <img src="@/assets/img/axe.png" alt="" class="img" />
     </div>
     <div class="text">
       click to enter！
