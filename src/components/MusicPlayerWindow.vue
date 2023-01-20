@@ -57,7 +57,7 @@
       </div>
     </div>
     <div class="music-player-progress">
-      <div class="music-player-progress-main-bar" ref="bar">
+      <div class="music-player-progress-main-bar" ref="bar" @click="clickProgressBar">
         <div class="music-player-progress-bar" ref="progress"></div>
         <div
           class="music-player-progress-button-wrap"
@@ -130,15 +130,17 @@ export default {
     percent(newValue) {
       if (newValue >= 0 && !this.progressData.start) {
         const barWidth = this.$refs.bar.clientWidth - 9;
-        const offsetWidth = barWidth * newValue;
-        this.$refs.progress.style.width = `${offsetWidth}px`;
-        this.$refs.progressBtn.style.transform = `translateX(${offsetWidth}px)`;
+        this.currentOffsetWidth = barWidth * newValue;
+        this.$refs.progress.style.width = `${this.currentOffsetWidth}px`;
+        this.$refs.progressBtn.style.transform = `translateX(${this.currentOffsetWidth}px)`;
       }
     },
   },
   data() {
     return {
       defaultMusic: [],
+      currentOffsetWidth: null,
+      isScrollAction: false,
       currentMusicName: "紅衣女孩",
       currentMusicSrc:
         "ladyInRed",
@@ -289,6 +291,29 @@ export default {
     progressTouchEnd() {
       this.changePercent();
       this.progressData.start = false;
+      this.isScrollAction = true;
+    },
+    clickProgressBar(e) {
+      // 避免拖拉進度條的時候也觸發到這個事件
+      if (this.isScrollAction) {
+        this.isScrollAction = false;
+        return;
+      }
+      // 取得bar的起始點位置
+      const barClientX = this.$refs.bar.getBoundingClientRect().left;
+      // 用bar起始點位置+從音樂撥放而改變的偏移=當前clientX
+      const currentClientX = barClientX + this.currentOffsetWidth;
+      this.progressData.movedProgress = this.$refs.progress.clientWidth;
+      //增加的移動距離(現在拖動到的位置-當前位置)
+      const offsetValue = e.clientX - currentClientX;
+      //總偏移量
+      const offsetWidth = Math.min(
+        this.$refs.bar.clientWidth - 9,
+        Math.max(0, this.progressData.movedProgress + offsetValue)
+      );
+      this.$refs.progress.style.width = `${offsetWidth}px`;
+      this.$refs.progressBtn.style.transform = `translateX(${offsetWidth}px)`;
+      this.changePercent();
     },
     changePercent() {
       const barWidth = this.$refs.bar.clientWidth - 9;
