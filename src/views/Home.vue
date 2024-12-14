@@ -242,7 +242,8 @@ export default {
         {
           id: uuidv4(),
           url:
-            "https://i.imgur.com/pfjAnvq.jpg"
+            "https://i.imgur.com/pfjAnvq.jpg",
+          title: "ugly beauty",
         },
         {
           id: uuidv4(),

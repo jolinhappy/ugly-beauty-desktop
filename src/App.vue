@@ -41,7 +41,7 @@ export default {
   width: 100%;
 }
 body {
-  background-image: url(https://i2.wp.com/www.jolinjenerationgallery.com/albums/userpics/10001/Cai20Yi20Lin20_Jolin_Tsai_3C3CZi20Shuo20_Ugly_Beauty3E3E20_05.jpg);
+  background-image: url(https://i.imgur.com/pfjAnvq.jpg);
   background-size: cover;
   font-family: "FZXS14--GB1-0";
   cursor: url(https://i.imgur.com/8Rcexpr.png), default;
