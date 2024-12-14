@@ -242,24 +242,23 @@ export default {
         {
           id: uuidv4(),
           url:
-            "https://i2.wp.com/www.jolinjenerationgallery.com/albums/userpics/10001/Cai20Yi20Lin20_Jolin_Tsai_3C3CZi20Shuo20_Ugly_Beauty3E3E20_05.jpg",
-          title: "ugly beaty",
+            "https://i.imgur.com/pfjAnvq.jpg"
         },
         {
           id: uuidv4(),
-          url: "https://i.ytimg.com/vi/-wIHmPAvMBo/maxresdefault.jpg",
+          url: "https://i.imgur.com/iG5hJEL.jpg",
           title: "怪美的",
         },
 
         {
           id: uuidv4(),
           url:
-            "https://i.pinimg.com/originals/bb/3f/43/bb3f4300b07c1d7fe05e22acb3e7ebc5.jpg",
+            "https://i.imgur.com/YEAF9ZO.jpg",
           title: "紅衣女孩",
         },
         {
           id: uuidv4(),
-          url: "https://i.ytimg.com/vi/w_JBF4CJ-9M/maxresdefault.jpg",
+          url: "https://i.imgur.com/7pTnKCl.jpg",
           title: "消極掰",
         },
       ],
